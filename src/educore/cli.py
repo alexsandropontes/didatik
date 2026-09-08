@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import os
 import subprocess
 import sys
 from pathlib import Path
@@ -23,7 +22,7 @@ app = typer.Typer(
 )
 console = Console()
 
-EDUCORE_SOURCE_ENV = "EDUCORE_SOURCE"
+EDUCORE_GIT = "git+ssh://git@github.com/lxptech/educore.git"
 
 
 @app.command()
@@ -84,31 +83,15 @@ def sync(
 
 
 @app.command()
-def upgrade(
-    source: str = typer.Option(
-        None,
-        "--source",
-        help=f"Fonte de instalação (git URL ou path). Default: env ${EDUCORE_SOURCE_ENV}",
-    ),
-) -> None:
-    """Atualiza o motor (CLI) do EduCore globalmente via uv e sincroniza o projeto local."""
+def upgrade() -> None:
+    """Atualiza o motor (CLI) do EduCore globalmente via GitHub e sincroniza o projeto local."""
     console.print(Panel.fit("[bold magenta]🎓 EduCore: Global Upgrade Protocol[/bold magenta]"))
 
-    src = source or os.environ.get(EDUCORE_SOURCE_ENV)
-    if not src:
-        console.print(
-            f"[yellow]![/yellow] Fonte de atualização não configurada.\n"
-            f"Defina [bold]{EDUCORE_SOURCE_ENV}=git+ssh://... [/bold] ou use [bold]--source[/bold].\n"
-            "Enquanto isso, sincronizando apenas o runtime local..."
-        )
-        sync(force=True)
-        return
-
     console.print(f"Versão instalada: [cyan]v{__version__}[/cyan]")
-    console.print(f"Fonte: [dim]{src}[/dim]")
+    console.print(f"Fonte: [dim]{EDUCORE_GIT}[/dim]")
 
-    cmd = ["uv", "tool", "install", "--force", "--upgrade", "--python", "3.13", src]
-    if not typer.confirm("Atualizar o motor globalmente agora?", default=True):
+    cmd = ["uv", "tool", "install", "--force", "--upgrade", "--python", "3.13", EDUCORE_GIT]
+    if not typer.confirm("Atualizar o motor globalmente via GitHub?", default=True):
         console.print("[yellow]Upgrade cancelado.[/yellow]")
         raise typer.Exit()
 
