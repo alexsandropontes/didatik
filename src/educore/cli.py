@@ -22,7 +22,7 @@ app = typer.Typer(
 )
 console = Console()
 
-EDUCORE_GIT = "git+ssh://git@github.com/lxptech/educore.git"
+EDUCORE_GIT = "git+ssh://git@github.com/lxptech/educore.git#subdirectory=src"
 
 
 @app.command()
