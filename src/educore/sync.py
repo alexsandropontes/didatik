@@ -9,6 +9,9 @@ from pathlib import Path
 # Pastas/arquivos do projeto que NUNCA são sobrescritos em hipótese alguma
 PROTECTED = {"curso"}
 
+# Scripts de execução entregues na raiz do projeto
+RUN_FILES = ["run.sh", "run.ps1"]
+
 SKIP_DIRS = {"node_modules", "dist", ".venv", "__pycache__", ".git"}
 
 COURSE_PLACEHOLDER = """{
@@ -111,6 +114,18 @@ def sync_runtime(target: Path, force: bool = False) -> dict[str, int]:
         _clean_stale(target / ".agent", reg / ".agent")
         _clean_stale(target / "templates", reg / "templates")
         _clean_stale(target / "platform", reg / "platform", SKIP_DIRS)
+
+    # run.sh / run.ps1 — sempre atualizados (executáveis)
+    run_copied = 0
+    for name in RUN_FILES:
+        src = reg / name
+        if src.exists():
+            dst = target / name
+            shutil.copy2(src, dst)
+            if name.endswith(".sh"):
+                dst.chmod(0o755)
+            run_copied += 1
+    stats["run"] = run_copied
 
     # curso/ — cria placeholder apenas se NÃO existir (jamais sobrescreve)
     curso = target / "curso"

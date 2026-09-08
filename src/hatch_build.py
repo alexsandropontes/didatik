@@ -15,6 +15,8 @@ REGISTRY_MAP = {
     "templates": "educore/registry/templates",
     "scripts": "educore/registry/scripts",
     "platform": "educore/registry/platform",
+    "run.sh": "educore/registry/run.sh",
+    "run.ps1": "educore/registry/run.ps1",
 }
 
 

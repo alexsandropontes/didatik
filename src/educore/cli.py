@@ -60,6 +60,7 @@ def sync(
         "templates": "Contrato (schemas + templates)",
         "scripts": "Validador Python/UV",
         "platform": "Mini plataforma Vue 3",
+        "run": "Scripts de execução (run.sh / run.ps1)",
         "curso": "Pasta do curso",
     }
     for key, label in labels.items():
