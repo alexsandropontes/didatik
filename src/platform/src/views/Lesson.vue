@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watchEffect } from 'vue'
+import { computed, ref, watchEffect, onMounted, onBeforeUnmount, useTemplateRef } from 'vue'
 import { useRoute } from 'vue-router'
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
@@ -35,6 +35,36 @@ watchEffect(async () => {
     fly: String(rendered.fly),
   }
 })
+
+// Fase LRF ativa conforme a leitura (scroll)
+const activePhase = ref('learn')
+const learnEl = useTemplateRef('learnSection')
+const runEl = useTemplateRef('runSection')
+const flyEl = useTemplateRef('flySection')
+let observer = null
+
+onMounted(() => {
+  observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          activePhase.value = entry.target.dataset.phase
+        }
+      }
+    },
+    { rootMargin: '-30% 0px -55% 0px' }
+  )
+  for (const el of [learnEl.value, runEl.value, flyEl.value]) {
+    if (el) observer.observe(el)
+  }
+})
+
+onBeforeUnmount(() => observer?.disconnect())
+
+function scrollToPhase(phase) {
+  const map = { learn: learnEl, run: runEl, fly: flyEl }
+  map[phase]?.value?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
 </script>
 
 <template>
@@ -56,25 +86,43 @@ watchEffect(async () => {
       </div>
     </header>
 
-    <div class="lrf-progress">
-      <span class="phase active" data-phase="learn">🧠 Learn</span>
+    <nav class="lrf-progress" aria-label="Progresso da aula">
+      <a
+        href="#learn"
+        class="phase"
+        data-phase="learn"
+        :data-active="activePhase === 'learn'"
+        @click.prevent="scrollToPhase('learn')"
+      >🧠 Learn</a>
       <span class="phase-line">─</span>
-      <span class="phase" data-phase="run">🏃 Run</span>
+      <a
+        href="#run"
+        class="phase"
+        data-phase="run"
+        :data-active="activePhase === 'run'"
+        @click.prevent="scrollToPhase('run')"
+      >🏃 Run</a>
       <span class="phase-line">─</span>
-      <span class="phase" data-phase="fly">🚀 Fly</span>
-    </div>
+      <a
+        href="#fly"
+        class="phase"
+        data-phase="fly"
+        :data-active="activePhase === 'fly'"
+        @click.prevent="scrollToPhase('fly')"
+      >🚀 Fly</a>
+    </nav>
 
-    <section class="lrf-section learn">
+    <section ref="learnSection" class="lrf-section learn" data-phase="learn">
       <h2>🧠 Learn</h2>
       <div class="markdown" v-html="html.learn"></div>
     </section>
 
-    <section class="lrf-section run">
+    <section ref="runSection" class="lrf-section run" data-phase="run">
       <h2>🏃 Run</h2>
       <div class="markdown" v-html="html.run"></div>
     </section>
 
-    <section class="lrf-section fly">
+    <section ref="flySection" class="lrf-section fly" data-phase="fly">
       <h2>🚀 Fly</h2>
       <div class="markdown" v-html="html.fly"></div>
     </section>
@@ -85,7 +133,8 @@ watchEffect(async () => {
         :to="`/${lesson.module.dir}/${lesson.prev.slug}`"
         class="nav-prev"
       >
-        ← {{ lesson.prev.title }}
+        <span class="nav-label">← Aula anterior</span>
+        {{ lesson.prev.title }}
       </RouterLink>
       <span v-else></span>
       <RouterLink
@@ -93,7 +142,8 @@ watchEffect(async () => {
         :to="`/${lesson.module.dir}/${lesson.next.slug}`"
         class="nav-next"
       >
-        {{ lesson.next.title }} →
+        <span class="nav-label">Próxima aula →</span>
+        {{ lesson.next.title }}
       </RouterLink>
     </nav>
   </article>
