@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "educore-course-schema",
+  "title": "EduCore Course",
+  "type": "object",
+  "required": ["title", "subtitle", "author", "version", "tags", "description", "objectives", "skills", "audience", "total_modules", "total_lessons", "total_duration"],
+  "properties": {
+    "title": { "type": "string", "minLength": 3, "description": "Título do curso" },
+    "subtitle": { "type": "string", "description": "Subtítulo do curso" },
+    "author": { "type": "string", "description": "Autor ou instituição" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "Versão semver" },
+    "tags": { "type": "array", "items": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" }, "minItems": 1, "description": "Tags em kebab-case sem acento" },
+    "description": { "type": "string", "minLength": 20, "description": "Descrição do curso" },
+    "objectives": { "type": "array", "items": { "type": "string" }, "minItems": 1, "description": "Objetivos de aprendizagem com verbo observável" },
+    "skills": { "type": "array", "items": { "type": "string" }, "description": "Habilidades desenvolvidas" },
+    "audience": { "type": "string", "description": "Público-alvo" },
+    "total_modules": { "type": "integer", "minimum": 1, "description": "Total de módulos (consistente com pastas)" },
+    "total_lessons": { "type": "integer", "minimum": 0, "description": "Total de aulas (consistente com arquivos)" },
+    "total_duration": { "type": "integer", "minimum": 0, "description": "Duração total em minutos" }
+  },
+  "additionalProperties": false
+}

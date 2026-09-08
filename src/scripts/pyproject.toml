@@ -1,0 +1,6 @@
+[project]
+name = "educore-scripts"
+version = "1.0.0"
+description = "Scripts de validação do contrato EduCore"
+requires-python = ">=3.13"
+dependencies = []

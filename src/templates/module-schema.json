@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "educore-module-schema",
+  "title": "EduCore Module",
+  "type": "object",
+  "required": ["title", "order", "description", "objectives", "lessons", "duration"],
+  "properties": {
+    "title": { "type": "string", "minLength": 3, "description": "Título do módulo" },
+    "order": { "type": "integer", "minimum": 1, "description": "Ordem do módulo no curso (bate com o prefixo da pasta)" },
+    "description": { "type": "string", "minLength": 10, "description": "Descrição do módulo" },
+    "objectives": { "type": "array", "items": { "type": "string" }, "minItems": 1, "description": "Objetivos do módulo" },
+    "lessons": { "type": "integer", "minimum": 0, "description": "Total de aulas do módulo (consistente com arquivos)" },
+    "duration": { "type": "integer", "minimum": 0, "description": "Duração do módulo em minutos" }
+  },
+  "additionalProperties": false
+}
