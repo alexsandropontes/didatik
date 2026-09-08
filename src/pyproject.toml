@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "educore"
+version = "1.0.0"
+description = "EduCore — Framework Educacional Learn Run Fly. CLI de sincronização do runtime educacional e da mini plataforma de cursos."
+readme = "README.md"
+requires-python = ">=3.13"
+license = { text = "MIT" }
+dependencies = [
+    "typer>=0.12",
+    "rich>=13",
+]
+
+[project.scripts]
+educore = "educore.entrypoint:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["educore"]
+
+[tool.hatch.build.hooks.custom]
+path = "hatch_build.py"

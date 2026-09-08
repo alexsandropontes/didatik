@@ -1,0 +1,146 @@
+"""CLI do EduCore — comandos sync, upgrade, version e validate."""
+
+from __future__ import annotations
+
+import os
+import subprocess
+import sys
+from pathlib import Path
+
+import typer
+from rich.console import Console
+from rich.panel import Panel
+from rich.table import Table
+
+from educore import __version__
+from educore.sync import registry_path, sync_runtime
+
+app = typer.Typer(
+    name="educore",
+    help="🎓 EduCore — Framework Educacional Learn Run Fly",
+    no_args_is_help=True,
+    add_completion=False,
+)
+console = Console()
+
+EDUCORE_SOURCE_ENV = "EDUCORE_SOURCE"
+
+
+@app.command()
+def version() -> None:
+    """Mostra a versão do EduCore."""
+    console.print(f"🎓 EduCore [cyan]v{__version__}[/cyan]")
+
+
+@app.command()
+def sync(
+    force: bool = typer.Option(
+        False, "--force", "-f", help="Sobrescreve runtime existente (nunca toca curso/)"
+    ),
+) -> None:
+    """Instala/atualiza o runtime EduCore (.agent, CLAUDE.md, templates, scripts) e a mini plataforma (platform/) no projeto local."""
+    console.print(Panel.fit("[bold cyan]🎓 EduCore: Sync do Runtime Educacional[/bold cyan]"))
+    target = Path.cwd()
+
+    if (target / ".agent").exists() and not force:
+        console.print("[yellow]![/yellow] Runtime já existe. Use [bold]--force[/bold] para atualizar.")
+        raise typer.Exit(code=1)
+
+    try:
+        stats = sync_runtime(target, force=force)
+    except Exception as exc:  # pragma: no cover
+        console.print(f"[red]Erro na sincronização: {exc}[/red]")
+        raise typer.Exit(code=1) from exc
+
+    table = Table(title="Artefatos sincronizados", show_lines=False)
+    table.add_column("Artefato", style="bold")
+    table.add_column("Status")
+    labels = {
+        ".agent": "Runtime educacional (agentes, comandos, skills)",
+        "CLAUDE.md": "Root instruction",
+        "templates": "Contrato (schemas + templates)",
+        "scripts": "Validador Python/UV",
+        "platform": "Mini plataforma Vue 3",
+        "curso": "Pasta do curso",
+    }
+    for key, label in labels.items():
+        val = stats.get(key, 0)
+        if key == "curso":
+            status = "[green]criado (placeholder)[/green]" if val else "[blue]preservado[/blue]"
+        else:
+            status = "[green]atualizado[/green]" if val else "[dim]sem alteração[/dim]"
+        table.add_row(label, status)
+    console.print(table)
+
+    if stats.get("platform"):
+        console.print(
+            "\n[yellow]⚠️  Primeira vez? Instale as dependências da plataforma:[/yellow]"
+            "\n   [bold]cd platform && npm install[/bold]"
+        )
+    console.print(
+        "\n[green]✅ Runtime sincronizado.[/green] "
+        "Crie seu curso com: [bold]*ec course create \"<descrição>\"[/bold]"
+    )
+
+
+@app.command()
+def upgrade(
+    source: str = typer.Option(
+        None,
+        "--source",
+        help=f"Fonte de instalação (git URL ou path). Default: env ${EDUCORE_SOURCE_ENV}",
+    ),
+) -> None:
+    """Atualiza o motor (CLI) do EduCore globalmente via uv e sincroniza o projeto local."""
+    console.print(Panel.fit("[bold magenta]🎓 EduCore: Global Upgrade Protocol[/bold magenta]"))
+
+    src = source or os.environ.get(EDUCORE_SOURCE_ENV)
+    if not src:
+        console.print(
+            f"[yellow]![/yellow] Fonte de atualização não configurada.\n"
+            f"Defina [bold]{EDUCORE_SOURCE_ENV}=git+ssh://... [/bold] ou use [bold]--source[/bold].\n"
+            "Enquanto isso, sincronizando apenas o runtime local..."
+        )
+        sync(force=True)
+        return
+
+    console.print(f"Versão instalada: [cyan]v{__version__}[/cyan]")
+    console.print(f"Fonte: [dim]{src}[/dim]")
+
+    cmd = ["uv", "tool", "install", "--force", "--upgrade", "--python", "3.13", src]
+    if not typer.confirm("Atualizar o motor globalmente agora?", default=True):
+        console.print("[yellow]Upgrade cancelado.[/yellow]")
+        raise typer.Exit()
+
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode != 0:
+        console.print(f"[red]Erro no upgrade:[/red]\n{result.stdout}\n{result.stderr}")
+        raise typer.Exit(code=1)
+
+    console.print("[bold green]Motor atualizado. Sincronizando o projeto local...[/bold green]")
+    sync(force=True)
+
+
+@app.command()
+def validate(
+    path: Path = typer.Option(
+        None, "--path", "-p", help="Caminho da pasta do curso (default: ./curso)"
+    ),
+) -> None:
+    """Valida o contrato de estrutura do curso (atalho para o validador)."""
+    reg = registry_path()
+    validator = reg / "scripts" / "validate_structure.py"
+    if not validator.exists():
+        console.print("[red]Validador não encontrado no registry.[/red]")
+        raise typer.Exit(code=1)
+
+    local_validator = Path.cwd() / "scripts" / "validate_structure.py"
+    target = local_validator if local_validator.exists() else validator
+    curso = str(path) if path else str(Path.cwd() / "curso")
+
+    result = subprocess.run([sys.executable, str(target), curso])
+    raise typer.Exit(code=result.returncode)
+
+
+if __name__ == "__main__":
+    app()
