@@ -161,6 +161,58 @@ h3 { font-size: var(--step-1); line-height: 1.35; margin: 2rem 0 0.75rem; }
 .lrf-section.learn { border-left-color: var(--learn); }
 .lrf-section.run { border-left-color: var(--run); }
 .lrf-section.fly { border-left-color: var(--fly); }
+.lrf-section.quiz { border-left-color: var(--accent); }
+
+.done-badge { font-size: 0.85em; vertical-align: middle; }
+.done-note { color: var(--fly); margin: 0.25rem 0 0; font-size: 0.98rem; }
+.progress-line { color: var(--text-muted); margin: 0.5rem 0 0; }
+
+.quiz-hint { color: var(--text-muted); margin-top: -0.5rem; }
+.quiz-question { margin: 1.5rem 0; }
+.quiz-prompt { font-weight: 600; margin: 0 0 0.6rem; }
+.quiz-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin: 0.45rem 0;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  font-size: 1rem;
+}
+.quiz-option:hover { border-color: var(--accent); }
+.quiz-option input { margin-top: 0.3rem; accent-color: var(--accent); }
+.quiz-option.selected { border-color: var(--accent); background: var(--surface-2); }
+.quiz-option.correct { border-color: var(--fly); background: rgba(79, 209, 197, 0.12); }
+.quiz-option.wrong { border-color: #e06c75; background: rgba(224, 108, 117, 0.12); }
+.quiz-option input[type='radio']:disabled { cursor: default; }
+
+.quiz-actions { margin-top: 1.25rem; }
+.quiz-btn {
+  font: inherit;
+  font-weight: 700;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.7rem 1.4rem;
+  cursor: pointer;
+  transition: filter 0.15s;
+}
+.quiz-btn:hover:not(:disabled) { filter: brightness(1.1); }
+.quiz-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.quiz-btn.secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+
+.quiz-result {
+  margin-top: 1.25rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: 10px;
+  font-size: 1.02rem;
+}
+.quiz-result.passed { background: rgba(79, 209, 197, 0.12); border: 1px solid var(--fly); color: var(--fly); }
+.quiz-result.failed { background: rgba(224, 108, 117, 0.12); border: 1px solid #e06c75; color: #f0a3a9; }
 
 .markdown { max-width: var(--reading-measure); }
 .markdown :is(h1, h2, h3, h4) { margin-top: 1.75rem; }

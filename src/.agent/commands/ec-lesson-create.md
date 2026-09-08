@@ -33,7 +33,7 @@ Escreve UMA aula seguindo a metodologia LRF e a submete à revisão de @bloom. �
 INCORPORE A PESSOA: @freire. Ler `course.json` + `module.json` do destino + aulas já existentes no módulo (ordem, conteúdo já ensinado, terminologia usada).
 
 ### Step 2: Escrita
-Execute a skill `freire` (7 steps): contextualizar → ancorar na dor do aluno → 🧠 Learn (camadas + analogia) → 🏃 Run (guiado passo a passo) → 🚀 Fly (desafio autônomo) → frontmatter completo → numeração sequencial.
+Execute a skill `freire` (8 steps): contextualizar → ancorar na dor do aluno → 🧠 Learn (camadas + analogia) → 🏃 Run (guiado passo a passo) → 🚀 Fly (desafio autônomo) → 📝 Quiz (4 a 6 perguntas, uma `(x)` por pergunta) → frontmatter completo → numeração sequencial.
 
 ### Step 3: Revisão
 INCORPORE A PESSOA: @bloom. Processo completo da skill: 5 pilares com evidências → veredito.
@@ -52,6 +52,7 @@ INCORPORE A PESSOA: @bloom. Processo completo da skill: 5 pilares com evidência
 ## Regras (NON-NEGOTIABLE)
 
 1. As três seções LRF obrigatórias, nesta ordem: `## 🧠 Learn`, `## 🏃 Run`, `## 🚀 Fly`.
-2. Fly usa APENAS conteúdo já ensinado até esta aula.
-3. Nenhuma aula entra no curso sem ✅ de @bloom.
-4. Nomenclatura `NN-kebab-case.md`, sem acento/espaço.
+2. Quiz obrigatório: `## 📝 Quiz` após o Fly, entre 4 e 6 perguntas, exatamente uma `(x)` por pergunta.
+3. Fly usa APENAS conteúdo já ensinado até esta aula.
+4. Nenhuma aula entra no curso sem ✅ de @bloom.
+5. Nomenclatura `NN-kebab-case.md`, sem acento/espaço.

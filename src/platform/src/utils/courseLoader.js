@@ -115,14 +115,40 @@ export function getLesson(moduleSlug, lessonSlug) {
   }
 }
 
-// Divide o corpo da aula nas 3 seções LRF
+// Divide o corpo da aula nas 3 seções LRF + quiz (opcional)
 export function splitLrf(body) {
-  const sections = { learn: '', run: '', fly: '' }
+  const sections = { learn: '', run: '', fly: '', quiz: '' }
   const learnMatch = body.match(/##\s*🧠\s*Learn([\s\S]*?)(?=##\s*🏃|$)/)
   const runMatch = body.match(/##\s*🏃\s*Run([\s\S]*?)(?=##\s*🚀|$)/)
-  const flyMatch = body.match(/##\s*🚀\s*Fly([\s\S]*)$/)
+  const flyMatch = body.match(/##\s*🚀\s*Fly([\s\S]*?)(?=##\s*📝|$)/)
+  const quizMatch = body.match(/##\s*📝\s*Quiz([\s\S]*)$/)
   if (learnMatch) sections.learn = learnMatch[1].trim()
   if (runMatch) sections.run = runMatch[1].trim()
   if (flyMatch) sections.fly = flyMatch[1].trim()
+  if (quizMatch) sections.quiz = quizMatch[1].trim()
   return sections
+}
+
+// Parseia a seção Quiz em estrutura de dados:
+// **1. Pergunta?** seguida de "- (x)" (correta) e "- ( )" (erradas)
+export function parseQuiz(quizBlock) {
+  if (!quizBlock) return null
+  const questions = []
+  const qRe = /\*\*\d+\.\s*(.+?)\*\*\r?\n([\s\S]*?)(?=\*\*\d+\.|\s*$)/g
+  let qMatch
+  while ((qMatch = qRe.exec(quizBlock)) !== null) {
+    const prompt = qMatch[1].trim()
+    const options = []
+    let answer = -1
+    const optRe = /^-\s*\(([ xX])\)\s*(.+)$/gm
+    let oMatch
+    while ((oMatch = optRe.exec(qMatch[2])) !== null) {
+      if (oMatch[1].toLowerCase() === 'x') answer = options.length
+      options.push(oMatch[2].trim())
+    }
+    if (prompt && options.length >= 2 && answer >= 0) {
+      questions.push({ prompt, options, answer })
+    }
+  }
+  return questions.length ? questions : null
 }

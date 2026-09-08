@@ -98,6 +98,7 @@ O aluno **FAZ SOZINHO**. Desafio autônomo, sem passo a passo. O aluno demonstra
 3. O Fly de uma aula nunca pode exigir conteúdo de aulas futuras.
 4. Frontmatter obrigatório em toda aula: `title`, `module`, `order`, `tags`, `duration`.
 5. `duration` em minutos (estimativa de tempo do aluno).
+6. **Quiz:** toda aula DEVE ter seção `## 📝 Quiz` após o Fly (ENTRE 4 E 6 perguntas, CADA UMA com exatamente 5 opções: 4 distratores + 1 correta; formato `**N. Pergunta?**` + opções `- ( )`/`- (x)`, exatamente UMA `(x)` por pergunta). O quiz valida o aproveitamento: a plataforma marca a aula como concluída com ≥75% de acerto. Perguntas do quiz cobrem Learn + Run + Fly da própria aula.
 
 ---
 

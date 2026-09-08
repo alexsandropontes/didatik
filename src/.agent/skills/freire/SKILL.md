@@ -98,9 +98,15 @@ Step 4 — RUN: Escrever a seção 🏃 Run — exercício GUIADO passo a passo.
          O aluno executa acompanhando. Cada passo tem resultado esperado.
 Step 5 — FLY: Escrever a seção 🚀 Fly — desafio AUTÔNOMO. Enunciado claro do
          que entregar, SEM passo a passo. Usar apenas conteúdo já ensinado.
-Step 6 — FRONTMATTER: Preencher title, module, order, tags (kebab-case),
+Step 6 — QUIZ: Escrever a seção 📝 Quiz — ENTRE 4 E 6 PERGUNTAS, cada uma com
+         EXATAMENTE 5 OPÇÕES (4 distratores + 1 correta), cobrindo Learn +
+         Run + Fly. Formato RÍGIDO: "**N. Pergunta?**" seguida de opções
+         "- ( )" e "- (x)". Exatamente UMA "(x)" por pergunta (a correta).
+         Distratores plausíveis (erros comuns de iniciante), sem pegadinha.
+         O quiz é o portão de conclusão da aula (≥75% na plataforma).
+Step 7 — FRONTMATTER: Preencher title, module, order, tags (kebab-case),
          duration (minutos).
-Step 7 — ENTREGA PARA REVIEW: A aula escrita vai direto para @bloom
+Step 8 — ENTREGA PARA REVIEW: A aula escrita vai direto para @bloom
          (anti-handoff: acompanhe até o veredito).
 ```
 

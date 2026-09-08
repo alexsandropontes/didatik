@@ -1,7 +1,13 @@
 <script setup>
 import { loadCourse } from '../utils/courseLoader'
+import { useProgress } from '../composables/useProgress'
 
 const course = loadCourse()
+const { isCompleted, moduleStats, courseStats } = useProgress()
+
+function statsFor(mod) {
+  return moduleStats(mod)
+}
 </script>
 
 <template>
@@ -15,6 +21,7 @@ const course = loadCourse()
         <span class="pill">📦 {{ course.modules.length }} módulos</span>
         <span class="pill">📚 {{ course.totalLessonsLoaded }} aulas</span>
         <span class="pill">⏱️ {{ course.total_duration }} min</span>
+        <span v-if="courseStats(course).total" class="pill">🏆 {{ courseStats(course).done }}/{{ courseStats(course).total }} concluídas ({{ courseStats(course).pct }}%)</span>
       </div>
       <div class="tags" v-if="course.tags?.length">
         <span v-for="tag in course.tags" :key="tag" class="tag">#{{ tag }}</span>
@@ -38,10 +45,16 @@ const course = loadCourse()
       >
         <span class="module-order">{{ String(mod.order).padStart(2, '0') }}</span>
         <div class="module-info">
-          <h3>{{ mod.title }}</h3>
+          <h3>
+            {{ mod.title }}
+            <span v-if="statsFor(mod).total && statsFor(mod).done === statsFor(mod).total" class="done-badge">✅</span>
+          </h3>
           <p>{{ mod.description }}</p>
           <span class="module-meta">
             📖 {{ mod.lessons.length }} aulas · ⏱️ {{ mod.duration }} min
+            <template v-if="statsFor(mod).total">
+              · ✅ {{ statsFor(mod).done }}/{{ statsFor(mod).total }} ({{ statsFor(mod).pct }}%)
+            </template>
           </span>
         </div>
         <span class="arrow">→</span>

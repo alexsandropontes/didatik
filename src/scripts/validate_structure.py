@@ -17,6 +17,10 @@ from pathlib import Path
 MODULE_DIR_RE = re.compile(r"^\d{2}-[a-z0-9]+(-[a-z0-9]+)*$")
 LESSON_FILE_RE = re.compile(r"^\d{2}-[a-z0-9]+(-[a-z0-9]+)*\.md$")
 LRF_SECTIONS = ["## 🧠 Learn", "## 🏃 Run", "## 🚀 Fly"]
+QUIZ_SECTION = "## 📝 Quiz"
+QUIZ_MIN_QUESTIONS = 4
+QUIZ_MAX_QUESTIONS = 6
+QUIZ_OPTIONS_PER_QUESTION = 5
 FRONTMATTER_KEYS = ["title", "module", "order", "tags", "duration"]
 
 COURSE_REQUIRED = [
@@ -77,6 +81,39 @@ def validate_module_json(module_dir: Path) -> dict | None:
     return data
 
 
+def validate_quiz(lesson: Path, raw: str) -> int:
+    """Valida a seção Quiz: 4-6 perguntas, exatamente uma (x) por pergunta."""
+    match = re.search(rf"^{QUIZ_SECTION}\s*$", raw, re.MULTILINE)
+    if not match:
+        warning(f"{lesson.name}: seção '## 📝 Quiz' ausente (aula não concluirá na plataforma)")
+        return 0
+
+    quiz_block = raw[match.end():]
+    questions = re.findall(
+        r"\*\*\d+\.\s*.+?\*\*\s*\r?\n((?:\s*-\s*\([ xX]\).*\r?\n?)+)",
+        quiz_block,
+    )
+    if not QUIZ_MIN_QUESTIONS <= len(questions) <= QUIZ_MAX_QUESTIONS:
+        error(
+            f"{lesson.name}: quiz com {len(questions)} perguntas "
+            f"(exigido entre {QUIZ_MIN_QUESTIONS} e {QUIZ_MAX_QUESTIONS})"
+        )
+    for i, block in enumerate(questions, start=1):
+        answers = re.findall(r"-\s*\(([ xX])\)", block)
+        correct = sum(1 for a in answers if a.lower() == "x")
+        if correct != 1:
+            error(
+                f"{lesson.name}: pergunta {i} do quiz tem {correct} opções '(x)' "
+                f"(exigido exatamente 1)"
+            )
+        if len(answers) != QUIZ_OPTIONS_PER_QUESTION:
+            error(
+                f"{lesson.name}: pergunta {i} do quiz tem {len(answers)} opções "
+                f"(exigido exatamente {QUIZ_OPTIONS_PER_QUESTION})"
+            )
+    return len(questions)
+
+
 def validate_lesson(module_dir: Path, lesson: Path, idx: int) -> int:
     raw = lesson.read_text(encoding="utf-8")
 
@@ -89,6 +126,8 @@ def validate_lesson(module_dir: Path, lesson: Path, idx: int) -> int:
         pass
     elif positions != sorted(positions):
         error(f"{lesson.name}: seções LRF fora de ordem (Learn → Run → Fly)")
+
+    validate_quiz(lesson, raw)
 
     match = re.match(r"^---\r?\n(.*?)\r?\n---", raw, re.DOTALL)
     if not match:

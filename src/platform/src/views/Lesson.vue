@@ -8,7 +8,9 @@ import remarkRehype from 'remark-rehype'
 import rehypeRaw from 'rehype-raw'
 import rehypeSlug from 'rehype-slug'
 import rehypeStringify from 'rehype-stringify'
-import { getLesson, splitLrf } from '../utils/courseLoader'
+import { getLesson, splitLrf, parseQuiz } from '../utils/courseLoader'
+import { useProgress } from '../composables/useProgress'
+import QuizSection from '../components/QuizSection.vue'
 
 const processor = unified()
   .use(remarkParse)
@@ -21,10 +23,16 @@ const processor = unified()
 const route = useRoute()
 const lesson = computed(() => getLesson(route.params.moduleDir, route.params.lessonFile))
 const html = ref({ learn: '', run: '', fly: '' })
+const quiz = ref(null)
+
+const { isCompleted, getScore, markCompleted } = useProgress()
+const completed = ref(false)
+const savedScore = ref(null)
 
 watchEffect(async () => {
   if (!lesson.value) return
   const sections = splitLrf(lesson.value.body)
+  quiz.value = parseQuiz(sections.quiz)
   const rendered = {}
   for (const key of ['learn', 'run', 'fly']) {
     rendered[key] = await processor.process(sections[key] || '')
@@ -34,7 +42,17 @@ watchEffect(async () => {
     run: String(rendered.run),
     fly: String(rendered.fly),
   }
+  completed.value = isCompleted(lesson.value.moduleDir, lesson.value.slug)
+  savedScore.value = getScore(lesson.value.moduleDir, lesson.value.slug)
 })
+
+function onQuizPassed(score) {
+  if (lesson.value) {
+    markCompleted(lesson.value.moduleDir, lesson.value.slug, score)
+    completed.value = true
+    savedScore.value = score
+  }
+}
 
 // Fase LRF ativa conforme a leitura (scroll)
 const activePhase = ref('learn')
@@ -80,7 +98,13 @@ function scrollToPhase(phase) {
         Módulo {{ String(lesson.module.order).padStart(2, '0') }} · Aula
         {{ String(lesson.order).padStart(2, '0') }}
       </span>
-      <h1>{{ lesson.title }}</h1>
+      <h1>
+        {{ lesson.title }}
+        <span v-if="completed" class="done-badge" title="Aula concluída">✅</span>
+      </h1>
+      <p v-if="completed" class="done-note">
+        Aula concluída com {{ savedScore }}% de aproveitamento. 🚀
+      </p>
       <div class="tags" v-if="lesson.tags.length">
         <span v-for="tag in lesson.tags" :key="tag" class="tag">#{{ tag }}</span>
       </div>
@@ -126,6 +150,12 @@ function scrollToPhase(phase) {
       <h2>🚀 Fly</h2>
       <div class="markdown" v-html="html.fly"></div>
     </section>
+
+    <QuizSection
+      v-if="quiz"
+      :questions="quiz"
+      @passed="onQuizPassed"
+    />
 
     <nav class="lesson-nav-bottom">
       <RouterLink

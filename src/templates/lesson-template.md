@@ -36,3 +36,33 @@ Desafio AUTÔNOMO. Sem passo a passo.
 - [ ] ...
 
 > Use apenas o que foi ensinado até aqui. Quando completar, você voou. 🚀
+
+## 📝 Quiz
+
+**1. Primeira pergunta do quiz?**
+- ( ) Opção errada 1
+- (x) Opção correta
+- ( ) Opção errada 2
+- ( ) Opção errada 3
+- ( ) Opção errada 4
+
+**2. Segunda pergunta?**
+- ( ) Opção errada 1
+- (x) Opção correta
+- ( ) Opção errada 2
+- ( ) Opção errada 3
+- ( ) Opção errada 4
+
+**3. Terceira pergunta?**
+- ( ) Opção errada 1
+- ( ) Opção errada 2
+- (x) Opção correta
+- ( ) Opção errada 3
+- ( ) Opção errada 4
+
+**4. Quarta pergunta?**
+- ( ) Opção errada 1
+- ( ) Opção errada 2
+- ( ) Opção errada 3
+- (x) Opção correta
+- ( ) Opção errada 4

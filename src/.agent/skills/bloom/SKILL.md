@@ -110,6 +110,16 @@ Step 3 — AVALIAR 5 PILARES: Para cada pilar, veredito 🟢/🟡/🔴 COM EVID�
       - Run tem prática real? Fly exige criação autônoma?
       - Fly usa apenas conteúdo já ensinado? Fly que repete Run = 🔴.
 
+Step 3.5 — CHECAGEM DO QUIZ (OBRIGATÓRIA):
+      - Seção "## 📝 Quiz" presente? Ausência = 🟡 em Qualidade Didática.
+      - Entre 4 e 6 perguntas? Fora da faixa (4-6) = 🟡 em Qualidade Didática.
+      - Cada pergunta com EXATAMENTE 5 opções (4 distratores + 1 correta)?
+        Fora de 5 = 🔴 em Precisão.
+      - Exatamente UMA opção "(x)" por pergunta? Zero ou 2+ = 🔴 em Precisão.
+      - Respostas corretas estão REALMENTE corretas? Erro conceitual = 🔴.
+      - Perguntas cobrem Learn + Run + Fly? Só Learn = 🟡 em Engajamento.
+      - Distratores plausíveis (erros comuns) vs. absurdos óbvios? = 🟡.
+
 Step 4 — VEREDITO: Emitir tabela final. Aprovado (5🟢) | Ajustar (há 🟡) |
          Reprovado (há 🔴). Em Ajustar/Reprovado, listar CORREÇÕES ACIONÁVEIS
          (o que exatamente mudar, em qual seção).

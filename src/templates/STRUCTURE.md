@@ -50,9 +50,24 @@ Exercício guiado, passo a passo, com resultado esperado em cada passo.
 ## 🚀 Fly
 
 Desafio autônomo. Enunciado do que entregar, SEM passo a passo.
+
+## 📝 Quiz
+
+**1. Pergunta?**
+- ( ) Opção errada
+- (x) Opção correta — exatamente UMA marcada com (x)
 ```
 
 **Obrigatório:** frontmatter completo (title, module, order, tags, duration) + as 3 seções LRF nesta ordem.
+
+**Quiz (recomendado, vira componente interativo na plataforma):**
+
+- Seção `## 📝 Quiz` APÓS o Fly, OPCIONAL (mas fortemente recomendada)
+- ENTRE 4 E 6 perguntas, CADA UMA com exatamente 5 opções (4 distratores + 1 correta)
+- Formato `**N. Pergunta?**` seguida de opções `- ( )` / `- (x)`
+- Exatamente UMA opção `(x)` por pergunta (a correta)
+- A aula é marcada como CONCLUÍDA quando o aluno atinge ≥75% no quiz
+- Sem quiz, a aula não pode ser concluída na plataforma
 
 ## Schemas
 
