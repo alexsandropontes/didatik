@@ -214,6 +214,30 @@ h3 { font-size: var(--step-1); line-height: 1.35; margin: 2rem 0 0.75rem; }
 .quiz-result.passed { background: rgba(79, 209, 197, 0.12); border: 1px solid var(--fly); color: var(--fly); }
 .quiz-result.failed { background: rgba(224, 108, 117, 0.12); border: 1px solid #e06c75; color: #f0a3a9; }
 
+.module-feedback {
+  margin: 1.75rem 0;
+  padding: 1.5rem 1.75rem;
+  border-radius: 14px;
+  text-align: center;
+}
+.module-feedback.finished { background: rgba(79, 209, 197, 0.1); border: 1px solid var(--fly); }
+.module-feedback.partial { background: var(--surface); border: 1px solid var(--border); }
+.feedback-title { font-size: 1.25rem; font-weight: 800; margin: 0 0 0.5rem; }
+.module-feedback.finished .feedback-title { color: var(--fly); }
+.module-feedback p { margin: 0.4rem 0; }
+.feedback-cta {
+  display: inline-block;
+  margin-top: 0.75rem;
+  padding: 0.7rem 1.4rem;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: filter 0.15s;
+}
+.feedback-cta:hover { filter: brightness(1.1); }
+
 .markdown { max-width: var(--reading-measure); }
 .markdown :is(h1, h2, h3, h4) { margin-top: 1.75rem; }
 .markdown h2 { font-size: var(--step-1); }

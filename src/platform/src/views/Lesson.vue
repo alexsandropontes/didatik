@@ -8,7 +8,7 @@ import remarkRehype from 'remark-rehype'
 import rehypeRaw from 'rehype-raw'
 import rehypeSlug from 'rehype-slug'
 import rehypeStringify from 'rehype-stringify'
-import { getLesson, splitLrf, parseQuiz } from '../utils/courseLoader'
+import { getLesson, loadCourse, splitLrf, parseQuiz } from '../utils/courseLoader'
 import { useProgress } from '../composables/useProgress'
 import QuizSection from '../components/QuizSection.vue'
 
@@ -25,9 +25,23 @@ const lesson = computed(() => getLesson(route.params.moduleDir, route.params.les
 const html = ref({ learn: '', run: '', fly: '' })
 const quiz = ref(null)
 
-const { isCompleted, getScore, markCompleted } = useProgress()
+const { isCompleted, getScore, markCompleted, moduleStats } = useProgress()
 const completed = ref(false)
 const savedScore = ref(null)
+
+// Status do módulo (reativo ao progresso) — exibido após passar no quiz
+const modStats = computed(() =>
+  lesson.value ? moduleStats(lesson.value.module) : { done: 0, total: 0, pct: 0 }
+)
+const moduleFinished = computed(
+  () => completed.value && modStats.value.total > 0 && modStats.value.done === modStats.value.total
+)
+
+const nextModule = computed(() => {
+  const course = loadCourse()
+  const idx = course.modules.findIndex((m) => m.dir === lesson.value?.moduleDir)
+  return idx >= 0 ? course.modules[idx + 1] || null : null
+})
 
 watchEffect(async () => {
   if (!lesson.value) return
@@ -156,6 +170,37 @@ function scrollToPhase(phase) {
       :questions="quiz"
       @passed="onQuizPassed"
     />
+
+    <div v-if="completed" class="module-feedback" :class="moduleFinished ? 'finished' : 'partial'">
+      <template v-if="moduleFinished">
+        <p class="feedback-title">🏆 Módulo concluído!</p>
+        <p>
+          Você finalizou todas as {{ modStats.total }} aulas de
+          <strong>{{ lesson.module.title }}</strong>. Nota nesta aula:
+          <strong>{{ savedScore }}%</strong>.
+        </p>
+        <RouterLink v-if="nextModule" :to="`/${nextModule.dir}`" class="feedback-cta">
+          Próximo módulo: {{ nextModule.title }} →
+        </RouterLink>
+        <RouterLink v-else to="/" class="feedback-cta">
+          🎓 Curso concluído! Voltar ao início →
+        </RouterLink>
+      </template>
+      <template v-else>
+        <p class="feedback-title">✅ Aula concluída! ({{ savedScore }}%)</p>
+        <p>
+          Progresso do módulo <strong>{{ lesson.module.title }}</strong>:
+          {{ modStats.done }}/{{ modStats.total }} aulas ({{ modStats.pct }}%).
+        </p>
+        <RouterLink
+          v-if="lesson.next"
+          :to="`/${lesson.module.dir}/${lesson.next.slug}`"
+          class="feedback-cta"
+        >
+          Continuar: {{ lesson.next.title }} →
+        </RouterLink>
+      </template>
+    </div>
 
     <nav class="lesson-nav-bottom">
       <RouterLink
