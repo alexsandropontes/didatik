@@ -17,6 +17,7 @@ A lei suprema do framework educacional. Toda ação de qualquer agente DEVE obed
 3. **Um projeto = um curso.** A estrutura de pastas do curso é ÚNICA, padronizada e imutável (Seção II).
 4. **O curso nasce vazio.** A pasta `curso/` existe apenas com `course.json` placeholder. Conteúdo é criado EXCLUSIVAMENTE pelos agentes educacionais.
 5. **A plataforma é pronta e inalterável.** O frontend Vue em `platform/` é entregue funcional. Agentes educacionais NÃO modificam a plataforma.
+6. **SEPARAÇÃO DE CONTEXTO (NON-NEGOTIABLE):** O ambiente onde a IA roda (OpenRouter, opencode, Claude Code, Cursor, Gemini ou qualquer harness/provedor de LLM) é **infraestrutura invisível** — NÃO é conteúdo. Nomes de ferramentas de execução, provedores de modelo, detalhes de runtime do framework e menções ao processo de criação JAMAIS entram em aulas, syllabus, quizzes, metadados, tags ou descrições — EXCETO quando o usuário declarar explicitamente que o curso É sobre esse tema. Se um termo do ambiente aparecer no briefing como dúvida, trate como ruído de contexto e siga o planejamento.
 
 ---
 

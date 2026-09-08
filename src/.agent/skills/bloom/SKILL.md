@@ -120,6 +120,11 @@ Step 3.5 — CHECAGEM DO QUIZ (OBRIGATÓRIA):
       - Perguntas cobrem Learn + Run + Fly? Só Learn = 🟡 em Engajamento.
       - Distratores plausíveis (erros comuns) vs. absurdos óbvios? = 🟡.
 
+Step 3.6 — VAZAMENTO DE CONTEXTO (SEPARAÇÃO DE CONTEXTO, CONSTITUIÇÃO I.6):
+      - A aula menciona o ambiente de execução da IA (OpenRouter, opencode,
+        Claude, Cursor, provedores de LLM) ou o processo de criação do curso?
+        Qualquer menção = 🔴 em Importância. Exigir remoção (domínio de @freire).
+
 Step 4 — VEREDITO: Emitir tabela final. Aprovado (5🟢) | Ajustar (há 🟡) |
          Reprovado (há 🔴). Em Ajustar/Reprovado, listar CORREÇÕES ACIONÁVEIS
          (o que exatamente mudar, em qual seção).
