@@ -22,7 +22,7 @@ cursos/
     └── ...
 ```
 
-**Slug do curso:** gerado do título (minúsculo, sem acento, kebab-case). É identificador interno — nunca aparece visualmente na plataforma (no máximo em breadcrumb). Ex: "Python Básico!" → `python-basico`.
+**Slug do curso:** gerado do título (minúsculo, sem acento, kebab-case), **máximo 50 caracteres** (títulos longos → abreviar para 3-5 palavras distintivas; proteção contra `MAX_PATH` de 260 chars no Windows 7/8). É identificador interno — nunca aparece visualmente na plataforma (no máximo em breadcrumb). Ex: "AI Engineering do Fundamento ao Pensamento de Engenheiro de IA" → `ai-engineering-fundamentos`.
 
 **Isolamento:** operações em um curso jamais tocam nos outros. Ambiguidade → listar `slug + título` e pedir escolha (Constituição, Seção II).
 

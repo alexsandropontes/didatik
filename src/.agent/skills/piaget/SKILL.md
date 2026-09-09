@@ -100,11 +100,14 @@ Step 5 — SEQUENCIAMENTO: Ordenar módulos por dependência de pré-requisitos.
 Step 6 — BREAKDOWN: Para cada módulo, listar as aulas (título + objetivo + duração
          estimada). Cada aula = um ciclo LRF completo.
 Step 7 — PERSISTÊNCIA: Gerar o SLUG do curso a partir do título (minúsculo, sem
-         acento, kebab-case — ex: "Python Básico!" → python-basico). Criar
-         cursos/<slug>/ com course.json + pastas de módulos + module.json
-         seguindo RIGOROSAMENTE o Contrato (Constituição, Seção II).
-         Se o slug já existir em cursos/, confirmar com o usuário antes de
-         sobrescrever. NUNCA tocar em pastas de outros cursos (Isolamento).
+         acento, kebab-case — ex: "Python Básico!" → python-basico). MÁXIMO 50
+         CARACTERES: títulos longos viram slug abreviado com as 3-5 palavras
+         mais distintivas (o título completo vai no course.json — o slug é só
+         identificador). Criar cursos/<slug>/ com course.json + pastas de
+         módulos + module.json seguindo RIGOROSAMENTE o Contrato (Constituição,
+         Seção II). Se o slug já existir em cursos/, confirmar com o usuário
+         antes de sobrescrever. NUNCA tocar em pastas de outros cursos
+         (Isolamento).
 ```
 
 7.2. **NOMENCLATURA (CONTRATO):** Pastas `NN-kebab-case/`, aulas listadas no module.json, arquivos `module.json` e `course.json` conforme schema. Sem acento, sem espaço, sem camelCase em nomes de arquivo.

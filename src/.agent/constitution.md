@@ -42,7 +42,7 @@ cursos/
 
 **Regras de nomenclatura:**
 
-1. **Slug do curso:** pasta `cursos/<slug>/` gerada do TÍTULO do curso — minúsculo, sem acento, kebab-case (ex: título "Python Básico!" → slug `python-basico`). O slug é **identificador interno**: nunca aparece visualmente na plataforma (no máximo em breadcrumb).
+1. **Slug do curso:** pasta `cursos/<slug>/` gerada do TÍTULO do curso — minúsculo, sem acento, kebab-case (ex: título "Python Básico!" → slug `python-basico`). O slug é **identificador interno**: nunca aparece visualmente na plataforma (no máximo em breadcrumb). **Limite: MÁXIMO 50 caracteres** (proteção contra `MAX_PATH` de 260 chars do Windows 7/8) — se o título for longo, abrevie o slug para as 3-5 palavras mais distintivas (ex: "AI Engineering do Fundamento ao Pensamento de Engenheiro de IA" → `ai-engineering-fundamentos`).
 2. Módulos: `NN-nome-kebab-case/` onde `NN` é numeração sequencial de 2 dígitos (`01`, `02`, `03`...).
 3. Aulas: `NN-titulo-kebab-case.md` com numeração sequencial DENTRO do módulo.
 4. Sem espaços, sem acentos, sem camelCase nos nomes de arquivo.

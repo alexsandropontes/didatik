@@ -6,6 +6,14 @@ $ErrorActionPreference = "Stop"
 Write-Host "🎓 EduCore — Learn Run Fly" -ForegroundColor Cyan
 Write-Host ""
 
+# Aviso MAX_PATH (260 chars) em Windows anterior ao 10
+$osMajor = [System.Environment]::OSVersion.Version.Major
+if ($osMajor -lt 10) {
+  Write-Host "⚠️  Windows $osMajor detectado: limite de caminho de 260 caracteres." -ForegroundColor Yellow
+  Write-Host "   Mantenha o projeto em pasta curta (ex: C:\cursos\meu-curso) para evitar erros." -ForegroundColor Yellow
+  Write-Host ""
+}
+
 function Fail($msg) {
   Write-Host "❌ $msg" -ForegroundColor Red
   exit 1

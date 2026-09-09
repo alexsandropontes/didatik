@@ -21,6 +21,7 @@ QUIZ_SECTION = "## 📝 Quiz"
 QUIZ_MIN_QUESTIONS = 4
 QUIZ_MAX_QUESTIONS = 6
 QUIZ_OPTIONS_PER_QUESTION = 5
+SLUG_MAX_LENGTH = 50  # proteção MAX_PATH (260 chars) Windows 7/8
 FRONTMATTER_KEYS = ["title", "module", "order", "tags", "duration"]
 
 COURSE_REQUIRED = [
@@ -191,6 +192,12 @@ def validate_course(course_root: Path) -> bool:
 
 
 def validate_course_tree(course_root: Path) -> None:
+    slug = course_root.name
+    if len(slug) > SLUG_MAX_LENGTH:
+        error(
+            f"slug '{slug}' tem {len(slug)} caracteres (máximo {SLUG_MAX_LENGTH} — "
+            f"risco de MAX_PATH 260 no Windows 7/8). Renomeie a pasta."
+        )
     course = validate_course_json(course_root / "course.json")
 
     module_dirs = sorted(
