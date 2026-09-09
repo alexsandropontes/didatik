@@ -14,6 +14,7 @@ Prefixo universal: `*ec`. NUNCA invente comandos. NUNCA tente montar arquivos qu
 |---------|-------------|--------|---------|
 | `*ec course create "<descrição>"` | @turing | Pipeline completo: PLAN (@piaget) → WRITE (@freire) → REVIEW (@bloom) | `ec-course-create.md` |
 | `*ec course plan "<descrição>"` | @piaget | Somente planejamento: briefing → syllabus → estrutura de pastas | `ec-course-plan.md` |
+| `*ec update course` | @turing | Ajustes em curso existente (isolamento garantido, disambiguação por lista) | `ec-update-course.md` |
 | `*ec module create "<nome>"` | @piaget | Cria novo módulo em curso existente + validação @bloom | `ec-module-create.md` |
 | `*ec lesson create "<título>"` | @freire | Cria uma aula LRF + revisão @bloom | `ec-lesson-create.md` |
 | `*ec help` | @turing | Lista comandos e o fluxo EduCore | (este arquivo) |

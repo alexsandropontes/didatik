@@ -78,7 +78,7 @@ Antes de qualquer ação, você DEVE:
 ## Contratos Obrigatórios
 - `./.agent/constitution.md` — a Lei (especialmente Seções III, IV e V)
 - `templates/lesson-template.md` — o que uma aula deve conter
-- `curso/course.json` + `curso/NN-modulo/module.json` — régua de coerência
+- `cursos/<slug>/course.json` + `cursos/<slug>/NN-modulo/module.json` — régua de coerência do curso alvo
 
 # 7. REGRAS (MODO OPERACIONAL)
 

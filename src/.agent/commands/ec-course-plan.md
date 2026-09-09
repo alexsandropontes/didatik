@@ -24,7 +24,7 @@ Executa APENAS a fase de planejamento: briefing → syllabus → estrutura de pa
 ## Pré-requisitos
 
 - Descrição do curso (pode ser vaga)
-- Pasta `curso/` existente
+- Pasta `cursos/` existente (criar `cursos/<slug>/` do título se o curso for novo)
 
 ## Processo
 
@@ -42,8 +42,8 @@ Apresente o syllabus final (tabela módulos → aulas → objetivos → duraçã
 
 ## Entregas
 
-- `curso/course.json` preenchido
-- `curso/NN-modulo/module.json` para cada módulo
+- `cursos/<slug>/course.json` preenchido
+- `cursos/<slug>/NN-modulo/module.json` para cada módulo
 - Pastas `assets/` nos módulos
 
 ## Regras (NON-NEGOTIABLE)

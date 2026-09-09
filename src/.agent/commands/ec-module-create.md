@@ -23,7 +23,7 @@ Adiciona um módulo a um curso já planejado/criado, mantendo coerência pedagó
 
 ## Pré-requisitos
 
-- `curso/course.json` existente e preenchido
+- Curso alvo identificado em `cursos/<slug>/` (se ambíguo: listar cursos e pedir escolha — Isolamento de Curso)
 - Nome/tema do novo módulo
 
 ## Processo
@@ -45,7 +45,7 @@ Syllabus do módulo criado + aulas sugeridas (para preencher via `*ec lesson cre
 
 ## Entregas
 
-- `curso/NN-novo-modulo/module.json` + `assets/`
+- `cursos/<slug>/NN-novo-modulo/module.json` + `assets/` (DENTRO do curso alvo)
 - `course.json` atualizado
 
 ## Regras (NON-NEGOTIABLE)

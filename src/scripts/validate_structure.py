@@ -161,21 +161,43 @@ def validate_lesson(module_dir: Path, lesson: Path, idx: int) -> int:
     return int(duration_match.group(1)) if duration_match else 0
 
 
-def main() -> int:
-    course_root = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).resolve().parent.parent / "curso"
-    course_root = course_root.resolve()
+def discover_courses(courses_root: Path) -> list[Path]:
+    """Descobre cada curso (subpasta com course.json) dentro de cursos/."""
+    if not courses_root.exists():
+        return []
+    return sorted(
+        d for d in courses_root.iterdir() if d.is_dir() and (d / "course.json").exists()
+    )
 
-    if not course_root.exists():
-        print(f"🔴 Pasta do curso não existe: {course_root}")
-        return 1
 
+def validate_course(course_root: Path) -> bool:
+    """Valida um curso individual. Retorna True se aprovado."""
+    global errors, warnings
+    saved_errors, saved_warnings = errors, warnings
+    errors, warnings = [], []
+
+    validate_course_tree(course_root)
+
+    ok = not errors
+    print("-" * 60)
+    print(f"📚 Curso: {course_root.name}")
+    for msg in warnings:
+        print(f"  {msg}")
+    for msg in errors:
+        print(f"  {msg}")
+    print(f"  {'✅ APROVADO' if ok else '❌ REPROVADO'}")
+    errors, warnings = saved_errors + errors, saved_warnings + warnings
+    return ok
+
+
+def validate_course_tree(course_root: Path) -> None:
     course = validate_course_json(course_root / "course.json")
 
     module_dirs = sorted(
         d for d in course_root.iterdir() if d.is_dir() and not d.name.startswith(".")
     )
     if not module_dirs:
-        warning("curso/ não tem módulos (curso vazio — normal antes de *ec course create)")
+        warning("curso sem módulos (curso vazio — normal antes de *ec course create)")
 
     total_lessons = 0
     total_duration = 0
@@ -230,21 +252,48 @@ def main() -> int:
                 f"mas a soma dos módulos é {total_duration}"
             )
 
+
+def main() -> int:
+    courses_root = (
+        Path(sys.argv[1]) if len(sys.argv) > 1 else Path.cwd() / "cursos"
+    )
+    courses_root = courses_root.resolve()
+
+    # Compat legado 1:1: se cursos/ não existe mas curso/ sim, valida curso/
+    if not courses_root.exists():
+        legacy = Path.cwd() / "curso"
+        if legacy.exists():
+            courses_root = legacy.resolve()
+        else:
+            print(f"🔴 Pasta de cursos não existe: {courses_root}")
+            return 1
+
+    course_dirs = discover_courses(courses_root)
+    if not course_dirs:
+        if (courses_root / "course.json").exists():
+            course_dirs = [courses_root]  # legado 1:1 (raiz é o próprio curso)
+        else:
+            print(f"🟡 {courses_root} não tem cursos (vazio — normal antes de *ec course create)")
+            return 0
+
     print("=" * 60)
-    print("🎓 VALIDAÇÃO DO CONTRATO EDUCORE")
-    print(f"   Curso: {course_root}")
-    print(f"   Módulos: {len(module_dirs)} | Aulas: {total_lessons} | Duração: {total_duration} min")
+    print("🎓 VALIDAÇÃO DO CONTRATO EDUCORE (multi-curso)")
+    print(f"   Raiz: {courses_root} | Cursos: {len(course_dirs)}")
     print("=" * 60)
 
-    for msg in warnings:
-        print(f"  {msg}")
-    for msg in errors:
-        print(f"  {msg}")
+    results = [validate_course(d) for d in course_dirs]
 
-    if errors:
-        print(f"\n❌ REPROVADO — {len(errors)} erro(s), {len(warnings)} aviso(s)")
+    total_errors = len(errors)
+    total_warnings = len(warnings)
+    approved = sum(results)
+    print("=" * 60)
+    if total_errors:
+        print(
+            f"❌ REPROVADO — {approved}/{len(results)} aprovado(s), "
+            f"{total_errors} erro(s), {total_warnings} aviso(s)"
+        )
         return 1
-    print(f"\n✅ APROVADO — contrato respeitado ({len(warnings)} aviso(s))")
+    print(f"✅ APROVADO — {approved}/{len(results)} curso(s) com contrato respeitado")
     return 0
 
 

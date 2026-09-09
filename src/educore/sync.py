@@ -2,33 +2,70 @@
 
 from __future__ import annotations
 
+import json
+import re
 import shutil
+import unicodedata
 from importlib import resources
 from pathlib import Path
 
 # Pastas/arquivos do projeto que NUNCA são sobrescritos em hipótese alguma
-PROTECTED = {"curso"}
+PROTECTED = {"cursos", "curso"}
 
 # Scripts de execução entregues na raiz do projeto
 RUN_FILES = ["run.sh", "run.ps1"]
 
 SKIP_DIRS = {"node_modules", "dist", ".venv", "__pycache__", ".git"}
 
-COURSE_PLACEHOLDER = """{
-  "title": "Meu Curso EduCore",
-  "subtitle": "Curso a ser criado pelos agentes educacionais",
-  "author": "EduCore",
-  "version": "0.1.0",
-  "tags": ["educore"],
-  "description": "Este curso ainda não foi planejado. Use *ec course create para criar o curso com os agentes @piaget, @freire e @bloom.",
-  "objectives": [],
-  "skills": [],
-  "audience": "A definir pelo planejamento",
-  "total_modules": 0,
-  "total_lessons": 0,
-  "total_duration": 0
-}
-"""
+
+def slugify_title(title: str) -> str:
+    """Gera slug a partir do título: sem acentos, kebab-case."""
+    normalized = unicodedata.normalize("NFKD", title)
+    ascii_text = normalized.encode("ascii", "ignore").decode("ascii").lower()
+    slug = re.sub(r"[^a-z0-9]+", "-", ascii_text).strip("-")
+    return slug or "curso"
+
+
+PLACEHOLDER_TITLE = "Meu Curso EduCore"
+
+
+def migrate_legacy_curso(target: Path) -> str | None:
+    """Migra estrutura 1:1 (curso/) para multi-curso (cursos/<slug>/).
+
+    Retorna mensagem de migração ou None.
+    """
+    legacy = target / "curso"
+    multi = target / "cursos"
+    if not legacy.exists() or multi.exists():
+        return None
+
+    course_json = legacy / "course.json"
+    has_content = any(
+        d.is_dir() and not d.name.startswith(".") and d.name != "assets"
+        for d in legacy.iterdir()
+    ) if legacy.exists() else False
+
+    if not has_content:
+        # Legado vazio/placeholder: descarta e cria cursos/ limpo
+        shutil.rmtree(legacy, ignore_errors=True)
+        multi.mkdir(parents=True, exist_ok=True)
+        return "estrutura antiga (curso/) vazia — criada cursos/ (multi-curso)"
+
+    # Migra conteúdo para cursos/<slug>/
+    title = PLACEHOLDER_TITLE
+    if course_json.exists():
+        try:
+            title = json.loads(course_json.read_text(encoding="utf-8")).get("title", title)
+        except (json.JSONDecodeError, OSError):
+            pass
+    slug = slugify_title(title)
+    dest = multi / slug
+    dest.mkdir(parents=True, exist_ok=True)
+    for item in legacy.iterdir():
+        shutil.move(str(item), str(dest / item.name))
+    legacy.rmdir()
+    return f"curso/ migrado para cursos/{slug}/ (slug gerado do título)"
+
 
 
 def registry_path() -> Path:
@@ -127,13 +164,14 @@ def sync_runtime(target: Path, force: bool = False) -> dict[str, int]:
             run_copied += 1
     stats["run"] = run_copied
 
-    # curso/ — cria placeholder apenas se NÃO existir (jamais sobrescreve)
-    curso = target / "curso"
-    if not curso.exists():
-        curso.mkdir(parents=True)
-        (curso / "course.json").write_text(COURSE_PLACEHOLDER, encoding="utf-8")
-        stats["curso"] = 1
+    # cursos/ — migra legado 1:1 se necessário; cria vazio apenas se não existir
+    migration = migrate_legacy_curso(target)
+    stats["migracao"] = 1 if migration else 0
+    cursos = target / "cursos"
+    if not cursos.exists():
+        cursos.mkdir(parents=True)
+        stats["cursos"] = 1
     else:
-        stats["curso"] = 0
+        stats["cursos"] = 0
 
     return stats

@@ -23,7 +23,7 @@ Escreve UMA aula seguindo a metodologia LRF e a submete à revisão de @bloom. �
 
 ## Pré-requisitos
 
-- `curso/course.json` preenchido (curso planejado)
+- `cursos/<slug>/course.json` preenchido (curso planejado)
 - Módulo destino existente com `module.json`
 - Título/tema da aula (se omitido, usar a próxima aula do breakdown do módulo)
 
@@ -46,7 +46,7 @@ INCORPORE A PESSOA: @bloom. Processo completo da skill: 5 pilares com evidência
 
 ## Entregas
 
-- `curso/NN-modulo/NN-aula.md` com ciclo LRF completo e frontmatter válido
+- `cursos/<slug>/NN-modulo/NN-aula.md` com ciclo LRF completo e frontmatter válido
 - Veredito ✅ de @bloom no relatório de revisão
 
 ## Regras (NON-NEGOTIABLE)

@@ -31,16 +31,20 @@ Depois, com seu agente de IA (Claude Code, opencode, etc.) no diretório:
 cd platform && npm install && npm run dev
 ```
 
-## Estrutura (Contrato)
+## Estrutura (Contrato — multi-curso)
 
 ```
-curso/
-├── course.json
-└── 01-nome-do-modulo/
-    ├── module.json
-    ├── assets/
-    └── 01-titulo-da-aula.md   # aula com ciclo LRF
+cursos/
+├── python-basico/          ← slug do curso (gerado do título)
+│   ├── course.json
+│   └── 01-nome-do-modulo/
+│       ├── module.json
+│       ├── assets/
+│       └── 01-titulo-da-aula.md   # aula com ciclo LRF + quiz
+└── vue-avancado/           ← outro curso
 ```
+
+**Isolamento:** ajustes em um curso jamais tocam nos outros (`*ec update course` lista `slug + título` quando ambíguo).
 
 ## Agentes
 

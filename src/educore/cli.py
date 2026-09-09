@@ -34,7 +34,7 @@ def version() -> None:
 @app.command()
 def sync(
     force: bool = typer.Option(
-        False, "--force", "-f", help="Sobrescreve runtime existente (nunca toca curso/)"
+        False, "--force", "-f", help="Sobrescreve runtime existente (nunca toca cursos/)"
     ),
 ) -> None:
     """Instala/atualiza o runtime EduCore (.agent, CLAUDE.md, templates, scripts) e a mini plataforma (platform/) no projeto local."""
@@ -61,12 +61,16 @@ def sync(
         "scripts": "Validador Python/UV",
         "platform": "Mini plataforma Vue 3",
         "run": "Scripts de execução (run.sh / run.ps1)",
-        "curso": "Pasta do curso",
+        "migracao": "Migração 1:1 (curso/ → cursos/<slug>/)",
+        "cursos": "Pasta de cursos (multi-curso)",
     }
     for key, label in labels.items():
         val = stats.get(key, 0)
-        if key == "curso":
-            status = "[green]criado (placeholder)[/green]" if val else "[blue]preservado[/blue]"
+        if key in ("cursos", "migracao"):
+            if key == "migracao":
+                status = "[green]realizada[/green]" if val else "[dim]não aplicável[/dim]"
+            else:
+                status = "[green]criada (vazia)[/green]" if val else "[blue]preservada[/blue]"
         else:
             status = "[green]atualizado[/green]" if val else "[dim]sem alteração[/dim]"
         table.add_row(label, status)
@@ -108,7 +112,7 @@ def upgrade() -> None:
 @app.command()
 def validate(
     path: Path = typer.Option(
-        None, "--path", "-p", help="Caminho da pasta do curso (default: ./curso)"
+        None, "--path", "-p", help="Caminho da pasta de cursos (default: ./cursos)"
     ),
 ) -> None:
     """Valida o contrato de estrutura do curso (atalho para o validador)."""
@@ -120,7 +124,7 @@ def validate(
 
     local_validator = Path.cwd() / "scripts" / "validate_structure.py"
     target = local_validator if local_validator.exists() else validator
-    curso = str(path) if path else str(Path.cwd() / "curso")
+    curso = str(path) if path else str(Path.cwd() / "cursos")
 
     result = subprocess.run([sys.executable, str(target), curso])
     raise typer.Exit(code=result.returncode)

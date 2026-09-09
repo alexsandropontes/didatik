@@ -8,7 +8,7 @@ import remarkRehype from 'remark-rehype'
 import rehypeRaw from 'rehype-raw'
 import rehypeSlug from 'rehype-slug'
 import rehypeStringify from 'rehype-stringify'
-import { getLesson, loadCourse, splitLrf, parseQuiz } from '../utils/courseLoader'
+import { getCourse, getLesson, splitLrf, parseQuiz } from '../utils/courseLoader'
 import { useProgress } from '../composables/useProgress'
 import QuizSection from '../components/QuizSection.vue'
 
@@ -21,7 +21,12 @@ const processor = unified()
   .use(rehypeStringify)
 
 const route = useRoute()
-const lesson = computed(() => getLesson(route.params.moduleDir, route.params.lessonFile))
+const course = computed(() => getCourse(route.params.courseSlug))
+const lesson = computed(() =>
+  course.value
+    ? getLesson(course.value.slug, route.params.moduleDir, route.params.lessonFile)
+    : null
+)
 const html = ref({ learn: '', run: '', fly: '' })
 const quiz = ref(null)
 
@@ -31,16 +36,18 @@ const savedScore = ref(null)
 
 // Status do módulo (reativo ao progresso) — exibido após passar no quiz
 const modStats = computed(() =>
-  lesson.value ? moduleStats(lesson.value.module) : { done: 0, total: 0, pct: 0 }
+  course.value && lesson.value
+    ? moduleStats(course.value.slug, lesson.value.module)
+    : { done: 0, total: 0, pct: 0 }
 )
 const moduleFinished = computed(
   () => completed.value && modStats.value.total > 0 && modStats.value.done === modStats.value.total
 )
 
 const nextModule = computed(() => {
-  const course = loadCourse()
-  const idx = course.modules.findIndex((m) => m.dir === lesson.value?.moduleDir)
-  return idx >= 0 ? course.modules[idx + 1] || null : null
+  if (!course.value || !lesson.value) return null
+  const idx = course.value.modules.findIndex((m) => m.dir === lesson.value.moduleDir)
+  return idx >= 0 ? course.value.modules[idx + 1] || null : null
 })
 
 watchEffect(async () => {
@@ -56,13 +63,13 @@ watchEffect(async () => {
     run: String(rendered.run),
     fly: String(rendered.fly),
   }
-  completed.value = isCompleted(lesson.value.moduleDir, lesson.value.slug)
-  savedScore.value = getScore(lesson.value.moduleDir, lesson.value.slug)
+  completed.value = isCompleted(course.value.slug, lesson.value.moduleDir, lesson.value.slug)
+  savedScore.value = getScore(course.value.slug, lesson.value.moduleDir, lesson.value.slug)
 })
 
 function onQuizPassed(score) {
-  if (lesson.value) {
-    markCompleted(lesson.value.moduleDir, lesson.value.slug, score)
+  if (course.value && lesson.value) {
+    markCompleted(course.value.slug, lesson.value.moduleDir, lesson.value.slug, score)
     completed.value = true
     savedScore.value = score
   }
@@ -100,10 +107,14 @@ function scrollToPhase(phase) {
 </script>
 
 <template>
-  <article v-if="lesson" class="lesson">
+  <article v-if="lesson && course" class="lesson">
     <nav class="lesson-nav-top">
-      <RouterLink :to="`/${lesson.module.dir}`">
-        ← {{ lesson.module.title }}
+      <RouterLink to="/">Cursos</RouterLink>
+      <span class="crumb-sep">›</span>
+      <RouterLink :to="`/${course.slug}`">{{ course.slug }}</RouterLink>
+      <span class="crumb-sep">›</span>
+      <RouterLink :to="`/${course.slug}/${lesson.module.dir}`">
+        {{ lesson.module.title }}
       </RouterLink>
     </nav>
 
@@ -179,10 +190,10 @@ function scrollToPhase(phase) {
           <strong>{{ lesson.module.title }}</strong>. Nota nesta aula:
           <strong>{{ savedScore }}%</strong>.
         </p>
-        <RouterLink v-if="nextModule" :to="`/${nextModule.dir}`" class="feedback-cta">
+        <RouterLink v-if="nextModule" :to="`/${course.slug}/${nextModule.dir}`" class="feedback-cta">
           Próximo módulo: {{ nextModule.title }} →
         </RouterLink>
-        <RouterLink v-else to="/" class="feedback-cta">
+        <RouterLink v-else :to="`/${course.slug}`" class="feedback-cta">
           🎓 Curso concluído! Voltar ao início →
         </RouterLink>
       </template>
@@ -194,7 +205,7 @@ function scrollToPhase(phase) {
         </p>
         <RouterLink
           v-if="lesson.next"
-          :to="`/${lesson.module.dir}/${lesson.next.slug}`"
+          :to="`/${course.slug}/${lesson.module.dir}/${lesson.next.slug}`"
           class="feedback-cta"
         >
           Continuar: {{ lesson.next.title }} →
@@ -205,7 +216,7 @@ function scrollToPhase(phase) {
     <nav class="lesson-nav-bottom">
       <RouterLink
         v-if="lesson.prev"
-        :to="`/${lesson.module.dir}/${lesson.prev.slug}`"
+        :to="`/${course.slug}/${lesson.module.dir}/${lesson.prev.slug}`"
         class="nav-prev"
       >
         <span class="nav-label">← Aula anterior</span>
@@ -214,7 +225,7 @@ function scrollToPhase(phase) {
       <span v-else></span>
       <RouterLink
         v-if="lesson.next"
-        :to="`/${lesson.module.dir}/${lesson.next.slug}`"
+        :to="`/${course.slug}/${lesson.module.dir}/${lesson.next.slug}`"
         class="nav-next"
       >
         <span class="nav-label">Próxima aula →</span>

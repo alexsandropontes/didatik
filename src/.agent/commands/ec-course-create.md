@@ -24,7 +24,7 @@ Cria um curso do zero, end-to-end: planejamento (@piaget) → escrita das aulas 
 ## Pré-requisitos
 
 - Descrição do curso (pode ser vaga; @piaget refina no briefing)
-- Pasta `curso/` existente (com placeholder). Se já houver curso preenchido, confirmar sobrescrita com o usuário ANTES de iniciar.
+- Pasta `cursos/` existente. Definir o slug do novo curso (do título). Se já existir curso com o mesmo slug, confirmar com o usuário ANTES de iniciar.
 
 ## Processo
 
@@ -39,7 +39,7 @@ Cria um curso do zero, end-to-end: planejamento (@piaget) → escrita das aulas 
 
 1. **INCORPORE A PESSOA: @freire**
 2. Para CADA aula do breakdown, execute o processo da skill `freire` (7 steps): contextualizar → ancorar → Learn → Run → Fly → frontmatter → entrega para review.
-3. Escreva as aulas em ordem de módulo/aula (`01-.../01-...md`, `01-.../02-...md`, ...).
+3. Escreva as aulas em ordem de módulo/aula DENTRO de `cursos/<slug>/` (`01-.../01-...md`, `01-.../02-...md`, ...).
 4. AUTO-FLOW: não pare entre aulas.
 
 ### FASE 3 — REVIEW (@bloom)
@@ -57,8 +57,8 @@ Cria um curso do zero, end-to-end: planejamento (@piaget) → escrita das aulas 
 
 ## Entregas
 
-- `curso/course.json` preenchido
-- `curso/NN-modulo/module.json` + aulas `.md` (todas com LRF completo)
+- `cursos/<slug>/course.json` preenchido
+- `cursos/<slug>/NN-modulo/module.json` + aulas `.md` (todas com LRF completo)
 - Relatório de revisão de @bloom (todos aprovados)
 
 ## Regras (NON-NEGOTIABLE)

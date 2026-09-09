@@ -1,23 +1,30 @@
 # 📐 STRUCTURE.md — O Contrato de Estrutura do Curso
 
-Este documento é o **contrato** entre os agentes educacionais e a plataforma Vue. A plataforma lê a pasta `curso/` seguindo EXATAMENTE esta estrutura. Qualquer desvio quebra a renderização.
+Este documento é o **contrato** entre os agentes educacionais e a plataforma Vue. O projeto é **multi-curso**: a plataforma lê a pasta `cursos/`, onde cada subpasta slug é um curso. Qualquer desvio quebra a renderização.
 
-## Estrutura Canônica
+## Estrutura Canônica (multi-curso)
 
 ```
-curso/
-├── course.json                    # OBRIGATÓRIO — metadados do curso
-├── 01-nome-do-modulo/             # OBRIGATÓRIO — prefixo 2 dígitos + kebab-case
-│   ├── module.json                # OBRIGATÓRIO — metadados do módulo
-│   ├── assets/                    # OPCIONAL — imagens do módulo
-│   │   └── exemplo.png
-│   ├── 01-titulo-da-aula.md       # OBRIGATÓRIO — aula com ciclo LRF
-│   └── 02-outra-aula.md
-└── 02-proximo-modulo/
-    ├── module.json
-    ├── assets/
-    └── 01-primeira-aula.md
+cursos/
+├── python-basico/                  ← slug do curso (gerado do título, sem acento)
+│   ├── course.json                 # OBRIGATÓRIO — metadados do curso
+│   ├── 01-nome-do-modulo/          # OBRIGATÓRIO — prefixo 2 dígitos + kebab-case
+│   │   ├── module.json             # OBRIGATÓRIO — metadados do módulo
+│   │   ├── assets/                 # OPCIONAL — imagens do módulo
+│   │   │   └── exemplo.png
+│   │   ├── 01-titulo-da-aula.md    # OBRIGATÓRIO — aula com ciclo LRF
+│   │   └── 02-outra-aula.md
+│   └── 02-proximo-modulo/
+│       ├── module.json
+│       ├── assets/
+│       └── 01-primeira-aula.md
+└── vue-avancado/                   ← outro curso, mesma estrutura
+    └── ...
 ```
+
+**Slug do curso:** gerado do título (minúsculo, sem acento, kebab-case). É identificador interno — nunca aparece visualmente na plataforma (no máximo em breadcrumb). Ex: "Python Básico!" → `python-basico`.
+
+**Isolamento:** operações em um curso jamais tocam nos outros. Ambiguidade → listar `slug + título` e pedir escolha (Constituição, Seção II).
 
 ## Regras de Nomenclatura
 
@@ -71,8 +78,8 @@ Desafio autônomo. Enunciado do que entregar, SEM passo a passo.
 
 ## Schemas
 
-- `course-schema.json` — valida `curso/course.json`
-- `module-schema.json` — valida `curso/NN-*/module.json`
+- `course-schema.json` — valida `cursos/<slug>/course.json`
+- `module-schema.json` — valida `cursos/<slug>/NN-*/module.json`
 
 ## Validação
 

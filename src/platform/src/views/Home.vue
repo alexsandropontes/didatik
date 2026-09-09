@@ -1,17 +1,24 @@
 <script setup>
-import { loadCourse } from '../utils/courseLoader'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { getCourse } from '../utils/courseLoader'
 import { useProgress } from '../composables/useProgress'
 
-const course = loadCourse()
-const { isCompleted, moduleStats, courseStats } = useProgress()
+const route = useRoute()
+const course = computed(() => getCourse(route.params.courseSlug))
+const { moduleStats, courseStats } = useProgress()
 
 function statsFor(mod) {
-  return moduleStats(mod)
+  return course.value ? moduleStats(course.value.slug, mod) : { done: 0, total: 0, pct: 0 }
 }
 </script>
 
 <template>
-  <section class="home">
+  <section v-if="course" class="home">
+    <nav class="lesson-nav-top">
+      <RouterLink to="/">← Todos os cursos</RouterLink>
+    </nav>
+
     <div class="hero">
       <h1>{{ course.title }}</h1>
       <p class="subtitle">{{ course.subtitle }}</p>
@@ -21,7 +28,10 @@ function statsFor(mod) {
         <span class="pill">📦 {{ course.modules.length }} módulos</span>
         <span class="pill">📚 {{ course.totalLessonsLoaded }} aulas</span>
         <span class="pill">⏱️ {{ course.total_duration }} min</span>
-        <span v-if="courseStats(course).total" class="pill">🏆 {{ courseStats(course).done }}/{{ courseStats(course).total }} concluídas ({{ courseStats(course).pct }}%)</span>
+        <span v-if="courseStats(course).total" class="pill">
+          🏆 {{ courseStats(course).done }}/{{ courseStats(course).total }} concluídas
+          ({{ courseStats(course).pct }}%)
+        </span>
       </div>
       <div class="tags" v-if="course.tags?.length">
         <span v-for="tag in course.tags" :key="tag" class="tag">#{{ tag }}</span>
@@ -40,14 +50,17 @@ function statsFor(mod) {
       <RouterLink
         v-for="mod in course.modules"
         :key="mod.dir"
-        :to="`/${mod.dir}`"
+        :to="`/${course.slug}/${mod.dir}`"
         class="module-card"
       >
         <span class="module-order">{{ String(mod.order).padStart(2, '0') }}</span>
         <div class="module-info">
           <h3>
             {{ mod.title }}
-            <span v-if="statsFor(mod).total && statsFor(mod).done === statsFor(mod).total" class="done-badge">✅</span>
+            <span
+              v-if="statsFor(mod).total && statsFor(mod).done === statsFor(mod).total"
+              class="done-badge"
+            >✅</span>
           </h3>
           <p>{{ mod.description }}</p>
           <span class="module-meta">
@@ -64,4 +77,5 @@ function statsFor(mod) {
       </p>
     </div>
   </section>
+  <section v-else class="empty">Curso não encontrado. 😕</section>
 </template>

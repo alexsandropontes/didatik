@@ -10,5 +10,6 @@ NUNCA saia da persona.
 - **Comandos:** prefixo `*ec` — índice completo em `.agent/commands/INDEX.md`
 - **Criar um curso:** `*ec course create "<descrição do curso>"`
 - **Framework educacional** baseado na metodologia **Learn Run Fly (LRF)**
-- **Cada projeto = UM curso só** — a estrutura de pastas é padronizada e a plataforma Vue (em `platform/`) lê essa estrutura
-- **O curso nasce vazio** — os agentes educacionais criam todo o conteúdo seguindo o contrato de estrutura
+- **Multi-curso:** vários cursos em `cursos/<slug>/` — a plataforma Vue lê essa estrutura
+- **Isolamento de curso:** operações em um curso JAMAIS tocam nos outros (Constituição, Seção II)
+- **Os cursos nascem vazios** — os agentes educacionais criam todo o conteúdo seguindo o contrato de estrutura

@@ -14,36 +14,47 @@ A lei suprema do framework educacional. Toda ação de qualquer agente DEVE obed
 
 1. **`@agente` = incorporação de persona.** Ao escrever `@piaget`, a IA lê `.agent/skills/piaget/SKILL.md`, incorpora a persona e age conforme seus 8 pilares.
 2. **`*ec` é o único prefixo de comando válido.** Índice completo em `.agent/commands/INDEX.md`. NUNCA invente comandos.
-3. **Um projeto = um curso.** A estrutura de pastas do curso é ÚNICA, padronizada e imutável (Seção II).
-4. **O curso nasce vazio.** A pasta `curso/` existe apenas com `course.json` placeholder. Conteúdo é criado EXCLUSIVAMENTE pelos agentes educacionais.
+3. **Multi-curso.** O projeto suporta vários cursos em `cursos/<slug>/`. A estrutura de cada curso é padronizada e imutável (Seção II). Operações em um curso JAMAIS afetam os outros (Isolamento de Curso, Seção II).
+4. **Os cursos nascem vazios.** A pasta `cursos/` é criada vazia pelo `educore sync`. Conteúdo é criado EXCLUSIVAMENTE pelos agentes educacionais.
 5. **A plataforma é pronta e inalterável.** O frontend Vue em `platform/` é entregue funcional. Agentes educacionais NÃO modificam a plataforma.
 6. **SEPARAÇÃO DE CONTEXTO (NON-NEGOTIABLE):** O ambiente onde a IA roda (OpenRouter, opencode, Claude Code, Cursor, Gemini ou qualquer harness/provedor de LLM) é **infraestrutura invisível** — NÃO é conteúdo. Nomes de ferramentas de execução, provedores de modelo, detalhes de runtime do framework e menções ao processo de criação JAMAIS entram em aulas, syllabus, quizzes, metadados, tags ou descrições — EXCETO quando o usuário declarar explicitamente que o curso É sobre esse tema. Se um termo do ambiente aparecer no briefing como dúvida, trate como ruído de contexto e siga o planejamento.
 
 ---
 
-## II. ESTRUTURA DO CURSO (O CONTRATO)
+## II. ESTRUTURA DOS CURSOS (O CONTRATO — MULTI-CURSO)
 
-A plataforma Vue lê esta estrutura. Qualquer desvio quebra a plataforma. **Este é o contrato entre agentes e plataforma.**
+A plataforma Vue lê esta estrutura. Qualquer desvio quebra a plataforma. **Este é o contrato entre agentes e plataforma.** O projeto suporta **VÁRIOS cursos**, cada um em sua pasta slug dentro de `cursos/`.
 
 ```
-curso/
-├── course.json                    # OBRIGATÓRIO — metadados do curso
-├── 01-nome-do-modulo/             # OBRIGATÓRIO — prefixo 2 dígitos + kebab-case
-│   ├── module.json                # OBRIGATÓRIO — metadados do módulo
-│   ├── assets/                    # OPCIONAL — imagens do módulo
-│   ├── 01-titulo-da-aula.md       # OBRIGATÓRIO — prefixo 2 dígitos + kebab-case
-│   └── 02-outra-aula.md
-└── 02-proximo-modulo/
+cursos/
+├── python-basico/                  # pasta slug do curso (gerada do título)
+│   ├── course.json                 # OBRIGATÓRIO — metadados do curso
+│   ├── 01-nome-do-modulo/          # OBRIGATÓRIO — prefixo 2 dígitos + kebab-case
+│   │   ├── module.json             # OBRIGATÓRIO — metadados do módulo
+│   │   ├── assets/                 # OPCIONAL — imagens do módulo
+│   │   ├── 01-titulo-da-aula.md    # OBRIGATÓRIO — prefixo 2 dígitos + kebab-case
+│   │   └── 02-outra-aula.md
+│   └── 02-proximo-modulo/
+│       └── ...
+└── vue-avancado/                   # outro curso, mesma estrutura
     └── ...
 ```
 
 **Regras de nomenclatura:**
 
-1. Módulos: `NN-nome-kebab-case/` onde `NN` é numeração sequencial de 2 dígitos (`01`, `02`, `03`...).
-2. Aulas: `NN-titulo-kebab-case.md` com numeração sequencial DENTRO do módulo.
-3. Sem espaços, sem acentos, sem camelCase nos nomes de arquivo.
-4. `course.json` e `module.json` seguem RIGOROSAMENTE os schemas em `templates/`.
-5. Imagens referenciadas nas aulas devem residir em `assets/` do próprio módulo.
+1. **Slug do curso:** pasta `cursos/<slug>/` gerada do TÍTULO do curso — minúsculo, sem acento, kebab-case (ex: título "Python Básico!" → slug `python-basico`). O slug é **identificador interno**: nunca aparece visualmente na plataforma (no máximo em breadcrumb).
+2. Módulos: `NN-nome-kebab-case/` onde `NN` é numeração sequencial de 2 dígitos (`01`, `02`, `03`...).
+3. Aulas: `NN-titulo-kebab-case.md` com numeração sequencial DENTRO do módulo.
+4. Sem espaços, sem acentos, sem camelCase nos nomes de arquivo.
+5. `course.json` e `module.json` seguem RIGOROSAMENTE os schemas em `templates/`.
+6. Imagens referenciadas nas aulas devem residir em `assets/` do próprio módulo.
+
+**ISOLAMENTO DE CURSO (NON-NEGOTIABLE):**
+
+1. Toda operação de escrita (criar/editar aula, módulo, metadados) é restrita a **UM curso por vez** — o curso em contexto, identificado por slug ou título.
+2. Antes de QUALQUER escrita, a IA DEVE confirmar qual curso está manipulando (slug da pasta).
+3. **PROIBIDO** alterar, mover ou remover arquivos de um curso que não seja o alvo da solicitação. Ex: "mude a aula X do curso Y" → tocar SOMENTE em `cursos/<slug-de-Y>/...`.
+4. Em caso de ambiguidade (título parecido, slug não identificado, múltiplos matches), a IA DEVE listar os cursos (`slug` + `título`) e pedir ao usuário para escolher. **NUNCA adivinhe.**
 
 **Schema do `course.json`** (ver `templates/course-schema.json`):
 

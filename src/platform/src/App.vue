@@ -1,24 +1,20 @@
 <script setup>
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import { loadCourse } from './utils/courseLoader'
+import { loadCourses } from './utils/courseLoader'
 
-const route = useRoute()
-const course = loadCourse()
-
-const isHome = computed(() => route.name === 'home')
+const courses = loadCourses()
+const brand = courses.length ? 'EduCore' : 'EduCore — Learn Run Fly'
 </script>
 
 <template>
   <div class="app">
-    <header class="header" v-if="!isHome">
-      <RouterLink to="/" class="back">← {{ course.title }}</RouterLink>
+    <header class="header">
+      <RouterLink to="/" class="brand">🎓 {{ brand }}</RouterLink>
     </header>
     <main class="main">
       <RouterView />
     </main>
     <footer class="footer">
-      <span>🎓 {{ course.title }} · Learn Run Fly</span>
+      <span>🎓 EduCore · Learn Run Fly</span>
     </footer>
   </div>
 </template>

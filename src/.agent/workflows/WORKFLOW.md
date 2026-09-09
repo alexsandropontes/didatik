@@ -8,7 +8,7 @@ Pipeline determinístico para criar cursos do briefing ao conteúdo aprovado:
 PLAN (@piaget) → WRITE (@freire) → REVIEW (@bloom) → DONE (@turing)
 ```
 
-Suporta: execução completa (`*ec course create`), execução por fase (`*ec course plan`, `*ec lesson create`) e retomada (o que já existe na pasta `curso/` define de onde continuar).
+Suporta: execução completa (`*ec course create`), execução por fase (`*ec course plan`, `*ec lesson create`) e retomada (o que já existe na pasta `cursos/<slug>/` do curso em contexto define de onde continuar).
 
 ---
 
@@ -35,7 +35,7 @@ workflow_state:
   review: {approved: int, pending: int, rejected: int}
 ```
 
-O estado é INFERIDO da pasta `curso/` (o código é a verdade): course.json preenchido = plan done; aulas existentes = write em progresso; relatório de revisão = review status.
+O estado é INFERIDO da pasta `cursos/<slug>/` do curso em contexto (o código é a verdade): course.json preenchido = plan done; aulas existentes = write em progresso; relatório de revisão = review status.
 
 ---
 
@@ -43,7 +43,7 @@ O estado é INFERIDO da pasta `curso/` (o código é a verdade): course.json pre
 
 Ao acionar qualquer comando de curso:
 
-1. **`curso/` vazio** → iniciar do zero (PLAN)
+1. **`cursos/<slug>/` vazio ou inexistente** → iniciar do zero (PLAN)
 2. **`course.json` preenchido, sem aulas** → continuar do WRITE
 3. **Aulas existentes sem veredito** → continuar do REVIEW da aula pendente
 4. Pergunte ao usuário apenas se houver ambiguidade real (ex: recomeçar ou continuar?)

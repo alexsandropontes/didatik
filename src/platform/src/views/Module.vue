@@ -1,23 +1,31 @@
 <script setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { getModule } from '../utils/courseLoader'
+import { getCourse, getModule } from '../utils/courseLoader'
 import { useProgress } from '../composables/useProgress'
 
 const route = useRoute()
-const mod = computed(() => getModule(route.params.moduleDir))
+const course = computed(() => getCourse(route.params.courseSlug))
+const mod = computed(() =>
+  course.value ? getModule(course.value.slug, route.params.moduleDir) : null
+)
 const { isCompleted, moduleStats } = useProgress()
 
 function stats() {
-  return mod.value ? moduleStats(mod.value) : { done: 0, total: 0, pct: 0 }
+  return course.value && mod.value ? moduleStats(course.value.slug, mod.value) : { done: 0, total: 0, pct: 0 }
 }
 </script>
 
 <template>
-  <section v-if="mod" class="module">
+  <section v-if="mod && course" class="module">
+    <nav class="lesson-nav-top">
+      <RouterLink :to="`/${course.slug}`">← {{ course.title }}</RouterLink>
+    </nav>
+
     <div class="module-header">
-      <span class="crumb">Módulo {{ String(mod.order).padStart(2, '0') }}</span>
-      <h1>{{ mod.title }}
+      <span class="crumb">Módulo {{ String(mod.order).padStart(2, '0') }} · {{ course.slug }}</span>
+      <h1>
+        {{ mod.title }}
         <span v-if="stats().total && stats().done === stats().total" class="done-badge">✅</span>
       </h1>
       <p>{{ mod.description }}</p>
@@ -39,14 +47,18 @@ function stats() {
       <RouterLink
         v-for="lesson in mod.lessons"
         :key="lesson.file"
-        :to="`/${mod.dir}/${lesson.slug}`"
+        :to="`/${course.slug}/${mod.dir}/${lesson.slug}`"
         class="lesson-card"
       >
         <span class="lesson-order">{{ String(lesson.order).padStart(2, '0') }}</span>
         <div class="lesson-info">
           <h3>
             {{ lesson.title }}
-            <span v-if="isCompleted(mod.dir, lesson.slug)" class="done-badge" title="Aula concluída">✅</span>
+            <span
+              v-if="isCompleted(course.slug, mod.dir, lesson.slug)"
+              class="done-badge"
+              title="Aula concluída"
+            >✅</span>
           </h3>
           <div class="tags" v-if="lesson.tags.length">
             <span v-for="tag in lesson.tags" :key="tag" class="tag">#{{ tag }}</span>

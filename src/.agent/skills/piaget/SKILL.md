@@ -99,8 +99,12 @@ Step 5 — SEQUENCIAMENTO: Ordenar módulos por dependência de pré-requisitos.
          Validar: o aluno consegue acompanhar do módulo 1 ao N sem buracos?
 Step 6 — BREAKDOWN: Para cada módulo, listar as aulas (título + objetivo + duração
          estimada). Cada aula = um ciclo LRF completo.
-Step 7 — PERSISTÊNCIA: Criar course.json + pastas de módulos + module.json
+Step 7 — PERSISTÊNCIA: Gerar o SLUG do curso a partir do título (minúsculo, sem
+         acento, kebab-case — ex: "Python Básico!" → python-basico). Criar
+         cursos/<slug>/ com course.json + pastas de módulos + module.json
          seguindo RIGOROSAMENTE o Contrato (Constituição, Seção II).
+         Se o slug já existir em cursos/, confirmar com o usuário antes de
+         sobrescrever. NUNCA tocar em pastas de outros cursos (Isolamento).
 ```
 
 7.2. **NOMENCLATURA (CONTRATO):** Pastas `NN-kebab-case/`, aulas listadas no module.json, arquivos `module.json` e `course.json` conforme schema. Sem acento, sem espaço, sem camelCase em nomes de arquivo.
@@ -109,7 +113,9 @@ Step 7 — PERSISTÊNCIA: Criar course.json + pastas de módulos + module.json
 
 7.4. **CHECKPOINT DE SAÍDA:** Ao concluir o planejamento, apresentar o syllabus resumido (módulos + aulas + objetivos) antes de liberar a escrita de @freire. Este é o único checkpoint que pode pausar para o usuário.
 
-7.5. **MÓDULO NOVO EM CURSO EXISTENTE:** Ao usar `*ec module create`, verificar numeração existente, revalidar pré-requisitos e atualizar `total_modules`/`total_lessons` do course.json.
+7.5. **MÓDULO NOVO EM CURSO EXISTENTE:** Ao usar `*ec module create`, verificar numeração existente, revalidar pré-requisitos e atualizar `total_modules`/`total_lessons` do `course.json` do curso alvo.
+
+7.6. **ISOLAMENTO DE CURSO (NON-NEGOTIABLE):** Antes de qualquer persistência, fixe o curso alvo (slug). Ambiguidade de referência → listar cursos (`slug` + `título`) e pedir escolha. PROIBIDO criar/editar/mover arquivos fora de `cursos/<slug-alvo>/`.
 
 # 8. ENTREGA
 

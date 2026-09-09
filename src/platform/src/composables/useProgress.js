@@ -1,6 +1,6 @@
 import { reactive, watch } from 'vue'
 
-const STORAGE_KEY = 'educore:progress:v1'
+const STORAGE_KEY = 'educore:progress:v2'
 
 function load() {
   try {
@@ -10,7 +10,7 @@ function load() {
   }
 }
 
-// Estrutura: { "01-modulo/01-aula": { completed: bool, score: number } }
+// Estrutura: { "<courseSlug>/<moduleDir>/<lessonSlug>": { completed, score } }
 const progress = reactive(load())
 
 watch(
@@ -20,38 +20,37 @@ watch(
 )
 
 export function useProgress() {
-  function keyFor(moduleDir, lessonSlug) {
-    return `${moduleDir}/${lessonSlug}`
+  function keyFor(courseSlug, moduleDir, lessonSlug) {
+    return `${courseSlug}/${moduleDir}/${lessonSlug}`
   }
 
-  function isCompleted(moduleDir, lessonSlug) {
-    return Boolean(progress[keyFor(moduleDir, lessonSlug)]?.completed)
+  function isCompleted(courseSlug, moduleDir, lessonSlug) {
+    return Boolean(progress[keyFor(courseSlug, moduleDir, lessonSlug)]?.completed)
   }
 
-  function getScore(moduleDir, lessonSlug) {
-    return progress[keyFor(moduleDir, lessonSlug)]?.score ?? null
+  function getScore(courseSlug, moduleDir, lessonSlug) {
+    return progress[keyFor(courseSlug, moduleDir, lessonSlug)]?.score ?? null
   }
 
-  function markCompleted(moduleDir, lessonSlug, score) {
-    progress[keyFor(moduleDir, lessonSlug)] = { completed: true, score }
+  function markCompleted(courseSlug, moduleDir, lessonSlug, score) {
+    progress[keyFor(courseSlug, moduleDir, lessonSlug)] = { completed: true, score }
   }
 
-  function resetLesson(moduleDir, lessonSlug) {
-    delete progress[keyFor(moduleDir, lessonSlug)]
+  function resetLesson(courseSlug, moduleDir, lessonSlug) {
+    delete progress[keyFor(courseSlug, moduleDir, lessonSlug)]
   }
 
-  function moduleStats(mod) {
+  function moduleStats(courseSlug, mod) {
     const total = mod.lessons?.length || 0
-    const done = mod.lessons?.filter((l) => isCompleted(mod.dir, l.slug)).length || 0
+    const done =
+      mod.lessons?.filter((l) => isCompleted(courseSlug, mod.dir, l.slug)).length || 0
     return { done, total, pct: total ? Math.round((done / total) * 100) : 0 }
   }
 
   function courseStats(course) {
     const total = course.modules?.reduce((acc, m) => acc + (m.lessons?.length || 0), 0) || 0
-    const done = course.modules?.reduce(
-      (acc, m) => acc + moduleStats(m).done,
-      0
-    ) || 0
+    const done =
+      course.modules?.reduce((acc, m) => acc + moduleStats(course.slug, m).done, 0) || 0
     return { done, total, pct: total ? Math.round((done / total) * 100) : 0 }
   }
 
