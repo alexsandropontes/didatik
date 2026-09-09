@@ -43,7 +43,7 @@ Apresente o syllabus final (tabela módulos → aulas → objetivos → duraçã
 ## Entregas
 
 - `cursos/<slug>/course.json` preenchido
-- `cursos/<slug>/NN-modulo/module.json` para cada módulo
+- `cursos/<slug>/NN/module.json` para cada módulo
 - Pastas `assets/` nos módulos
 
 ## Regras (NON-NEGOTIABLE)

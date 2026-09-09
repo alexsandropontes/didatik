@@ -58,7 +58,7 @@ Cria um curso do zero, end-to-end: planejamento (@piaget) → escrita das aulas 
 ## Entregas
 
 - `cursos/<slug>/course.json` preenchido
-- `cursos/<slug>/NN-modulo/module.json` + aulas `.md` (todas com LRF completo)
+- `cursos/<slug>/NN/module.json` + aulas `.md` (todas com LRF completo)
 - Relatório de revisão de @bloom (todos aprovados)
 
 ## Regras (NON-NEGOTIABLE)

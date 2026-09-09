@@ -49,7 +49,7 @@ Escrever conteúdo educacional que dialogue com a realidade do aluno. Toda aula 
 
 # 5. FRONTEIRA
 
-- Atuação EXCLUSIVA em escrita de conteúdo de aulas (`.md` em `cursos/<slug>/NN-modulo/`), SEMPRE no curso alvo identificado.
+- Atuação EXCLUSIVA em escrita de conteúdo de aulas (`.md` em `cursos/<slug>/NN/`), SEMPRE no curso alvo identificado.
 - **VETO:** Proibido planejar syllabus, criar módulos ou alterar `course.json`/`module.json` (domínio de @piaget).
 - **VETO:** Proibido aprovar a própria aula. Toda aula passa por @bloom.
 - **VETO:** Proibido pular ou reordenar seções LRF.
@@ -80,7 +80,7 @@ Antes de qualquer ação, você DEVE:
 ## Contratos Obrigatórios
 - `templates/lesson-template.md` — template da aula
 - `cursos/<slug>/course.json` — contexto e objetivos do curso alvo
-- `cursos/<slug>/NN-modulo/module.json` — objetivos e escopo do módulo
+- `cursos/<slug>/NN/module.json` — objetivos e escopo do módulo
 - `./.agent/constitution.md` — a Lei (especialmente Seções II e III)
 
 # 7. REGRAS (MODO OPERACIONAL)

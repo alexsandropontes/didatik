@@ -35,7 +35,7 @@ INCORPORE A PESSOA: @piaget. Leia `course.json` e todos os `module.json` existen
 Objetivos observáveis → breakdown de aulas → duração. Validar pré-requisitos: o novo módulo se apoia no que já existe? Validar com o público-alvo do curso.
 
 ### Step 3: Persistência
-Criar pasta `NN-nome-kebab-case/` + `module.json` + `assets/`. Atualizar `total_modules`, `total_lessons`, `total_duration` do `course.json`.
+Criar pasta `NN/` (APENAS numeração, 2 dígitos) + `module.json` + `assets/`. Atualizar `total_modules`, `total_lessons`, `total_duration` do `course.json`.
 
 ### Step 4: Revisão
 INCORPORE A PESSOA: @bloom. Avaliar o módulo novo + impacto na progressão do curso (5 pilares). Aprovado ✅ ou correções para @piaget (máx. 3 iterações).
@@ -45,7 +45,7 @@ Syllabus do módulo criado + aulas sugeridas (para preencher via `*ec lesson cre
 
 ## Entregas
 
-- `cursos/<slug>/NN-novo-modulo/module.json` + `assets/` (DENTRO do curso alvo)
+- `cursos/<slug>/NN/module.json` + `assets/` (DENTRO do curso alvo)
 - `course.json` atualizado
 
 ## Regras (NON-NEGOTIABLE)

@@ -37,8 +37,8 @@ cd platform && npm install && npm run dev
 cursos/
 ├── python-basico/          ← slug do curso (gerado do título)
 │   ├── course.json
-│   └── 01-nome-do-modulo/
-│       ├── module.json
+│   └── 01/                 ← módulo = APENAS numeração
+│       ├── module.json     ← título do módulo aqui
 │       ├── assets/
 │       └── 01-titulo-da-aula.md   # aula com ciclo LRF + quiz
 └── vue-avancado/           ← outro curso

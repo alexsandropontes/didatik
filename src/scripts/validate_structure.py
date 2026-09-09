@@ -14,7 +14,8 @@ import re
 import sys
 from pathlib import Path
 
-MODULE_DIR_RE = re.compile(r"^\d{2}-[a-z0-9]+(-[a-z0-9]+)*$")
+MODULE_DIR_RE = re.compile(r"^\d{2}$")
+MODULE_DIR_LEGACY_RE = re.compile(r"^\d{2}-[a-z0-9]+(-[a-z0-9]+)*$")
 LESSON_FILE_RE = re.compile(r"^\d{2}-[a-z0-9]+(-[a-z0-9]+)*\.md$")
 LRF_SECTIONS = ["## 🧠 Learn", "## 🏃 Run", "## 🚀 Fly"]
 QUIZ_SECTION = "## 📝 Quiz"
@@ -22,8 +23,8 @@ QUIZ_MIN_QUESTIONS = 4
 QUIZ_MAX_QUESTIONS = 6
 QUIZ_OPTIONS_PER_QUESTION = 5
 SLUG_MAX_LENGTH = 50      # slug do curso (proteção MAX_PATH 260, Windows 7/8)
-MODULE_NAME_MAX = 30      # nome completo da pasta do módulo (incl. "NN-")
 LESSON_FILE_MAX = 40      # nome completo do arquivo de aula (incl. "NN-" e ".md")
+MODULE_NAME_MAX = 30      # legado: nome completo da pasta do módulo (incl. "NN-")
 FRONTMATTER_KEYS = ["title", "module", "order", "tags", "duration"]
 
 COURSE_REQUIRED = [
@@ -212,14 +213,18 @@ def validate_course_tree(course_root: Path) -> None:
     total_duration = 0
 
     for expected_idx, module_dir in enumerate(module_dirs, start=1):
-        if not MODULE_DIR_RE.match(module_dir.name):
-            error(f"pasta de módulo com nome inválido: '{module_dir.name}' (esperado NN-kebab-case)")
+        if MODULE_DIR_LEGACY_RE.match(module_dir.name) and not MODULE_DIR_RE.match(module_dir.name):
+            warning(
+                f"pasta de módulo '{module_dir.name}': no formato LEGADO (NN-nome). "
+                f"Renomeie para só a numeração '{module_dir.name[:2]}' — o título completo vive no module.json."
+            )
+        elif not MODULE_DIR_RE.match(module_dir.name):
+            error(f"pasta de módulo com nome inválido: '{module_dir.name}' (esperado apenas a numeração: 01, 02, ...)")
             continue
-        if len(module_dir.name) > MODULE_NAME_MAX:
+        if MODULE_DIR_LEGACY_RE.match(module_dir.name) and len(module_dir.name) > MODULE_NAME_MAX:
             error(
                 f"pasta de módulo '{module_dir.name}' tem {len(module_dir.name)} caracteres "
-                f"(máximo {MODULE_NAME_MAX} — risco MAX_PATH). Abrevie: 2-4 palavras-chave; "
-                f"título completo no module.json."
+                f"(máximo {MODULE_NAME_MAX} — risco MAX_PATH). Renomeie para '{module_dir.name[:2]}'."
             )
         if int(module_dir.name[:2]) != expected_idx:
             warning(f"{module_dir.name}: numeração de módulo não sequencial (esperado {expected_idx:02d})")

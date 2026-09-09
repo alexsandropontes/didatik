@@ -97,8 +97,8 @@ Step 4 — ESTRUTURA: Definir módulos (5 a 8 é o sweet spot; mínimo 3, máxim
          Cada módulo = um agrupamento coeso de habilidades.
 Step 5 — SEQUENCIAMENTO: Ordenar módulos por dependência de pré-requisitos.
          Validar: o aluno consegue acompanhar do módulo 1 ao N sem buracos?
-         Nomes de pastas de módulo: MÁX 30 CHARS (incluindo "NN-"), 2-4
-         palavras-chave — título completo vai no module.json → title.
+         Pastas de módulo são APENAS numeração (01/, 02/, ...) — o título
+         completo do módulo vive no module.json → title.
 Step 6 — BREAKDOWN: Para cada módulo, listar as aulas (título + objetivo + duração
          estimada). Cada aula = um ciclo LRF completo. Nomes de arquivos de
          aula: MÁX 40 CHARS (incluindo "NN-" e ".md"), 2-4 palavras-chave —
@@ -114,7 +114,7 @@ Step 7 — PERSISTÊNCIA: Gerar o SLUG do curso a partir do título (minúsculo,
          (Isolamento).
 ```
 
-7.2. **NOMENCLATURA (CONTRATO):** Pastas `NN-kebab-case/`, aulas listadas no module.json, arquivos `module.json` e `course.json` conforme schema. Sem acento, sem espaço, sem camelCase em nomes de arquivo.
+7.2. **NOMENCLATURA (CONTRATO):** Pastas de módulo = APENAS numeração (`01/`, `02/`, ...); aulas `NN-kebab-case.md`; arquivos `module.json` e `course.json` conforme schema. O título do módulo vive em `module.json` → `title`. Sem acento, sem espaço, sem camelCase em nomes de arquivo.
 
 7.3. **CONTAGEM:** Preencher `total_modules`, `total_lessons`, `total_duration` no course.json e `lessons`, `duration` no module.json com valores CONSISTENTES com o planejado.
 

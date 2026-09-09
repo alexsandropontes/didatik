@@ -8,13 +8,13 @@ Este documento é o **contrato** entre os agentes educacionais e a plataforma Vu
 cursos/
 ├── python-basico/                  ← slug do curso (gerado do título, sem acento)
 │   ├── course.json                 # OBRIGATÓRIO — metadados do curso
-│   ├── 01-nome-do-modulo/          # OBRIGATÓRIO — prefixo 2 dígitos + kebab-case
-│   │   ├── module.json             # OBRIGATÓRIO — metadados do módulo
+│   ├── 01/                         # OBRIGATÓRIO — módulo = APENAS numeração
+│   │   ├── module.json             # OBRIGATÓRIO — título e metadados do módulo
 │   │   ├── assets/                 # OPCIONAL — imagens do módulo
 │   │   │   └── exemplo.png
 │   │   ├── 01-titulo-da-aula.md    # OBRIGATÓRIO — aula com ciclo LRF
 │   │   └── 02-outra-aula.md
-│   └── 02-proximo-modulo/
+│   └── 02/
 │       ├── module.json
 │       ├── assets/
 │       └── 01-primeira-aula.md
@@ -23,6 +23,10 @@ cursos/
 ```
 
 **Slug do curso:** gerado do título (minúsculo, sem acento, kebab-case), **máximo 50 caracteres** (títulos longos → abreviar para 3-5 palavras distintivas; proteção contra `MAX_PATH` de 260 chars no Windows 7/8). É identificador interno — nunca aparece visualmente na plataforma (no máximo em breadcrumb). Ex: "AI Engineering do Fundamento ao Pensamento de Engenheiro de IA" → `ai-engineering-fundamentos`.
+
+**Módulos:** pastas com APENAS a numeração (`01/`, `02/`, `03/`...) — SEM nome. O título do módulo vive em `module.json` → `title`.
+
+**Aulas:** `NN-nome-kebab-case.md`, prefixo 2 dígitos sequencial DENTRO do módulo, **máximo 40 caracteres** no nome completo (identificador curto de 2-4 palavras; o título completo vai no frontmatter → `title`).
 
 **Isolamento:** operações em um curso jamais tocam nos outros. Ambiguidade → listar `slug + título` e pedir escolha (Constituição, Seção II).
 

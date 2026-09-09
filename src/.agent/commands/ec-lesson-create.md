@@ -46,7 +46,7 @@ INCORPORE A PESSOA: @bloom. Processo completo da skill: 5 pilares com evidência
 
 ## Entregas
 
-- `cursos/<slug>/NN-modulo/NN-aula.md` com ciclo LRF completo e frontmatter válido
+- `cursos/<slug>/NN/NN-aula.md` com ciclo LRF completo e frontmatter válido
 - Veredito ✅ de @bloom no relatório de revisão
 
 ## Regras (NON-NEGOTIABLE)
