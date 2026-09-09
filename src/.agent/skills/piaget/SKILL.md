@@ -97,8 +97,12 @@ Step 4 — ESTRUTURA: Definir módulos (5 a 8 é o sweet spot; mínimo 3, máxim
          Cada módulo = um agrupamento coeso de habilidades.
 Step 5 — SEQUENCIAMENTO: Ordenar módulos por dependência de pré-requisitos.
          Validar: o aluno consegue acompanhar do módulo 1 ao N sem buracos?
+         Nomes de pastas de módulo: MÁX 30 CHARS (incluindo "NN-"), 2-4
+         palavras-chave — título completo vai no module.json → title.
 Step 6 — BREAKDOWN: Para cada módulo, listar as aulas (título + objetivo + duração
-         estimada). Cada aula = um ciclo LRF completo.
+         estimada). Cada aula = um ciclo LRF completo. Nomes de arquivos de
+         aula: MÁX 40 CHARS (incluindo "NN-" e ".md"), 2-4 palavras-chave —
+         o título completo vai no frontmatter → title.
 Step 7 — PERSISTÊNCIA: Gerar o SLUG do curso a partir do título (minúsculo, sem
          acento, kebab-case — ex: "Python Básico!" → python-basico). MÁXIMO 50
          CARACTERES: títulos longos viram slug abreviado com as 3-5 palavras

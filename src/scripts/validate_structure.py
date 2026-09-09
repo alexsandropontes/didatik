@@ -21,7 +21,9 @@ QUIZ_SECTION = "## 📝 Quiz"
 QUIZ_MIN_QUESTIONS = 4
 QUIZ_MAX_QUESTIONS = 6
 QUIZ_OPTIONS_PER_QUESTION = 5
-SLUG_MAX_LENGTH = 50  # proteção MAX_PATH (260 chars) Windows 7/8
+SLUG_MAX_LENGTH = 50      # slug do curso (proteção MAX_PATH 260, Windows 7/8)
+MODULE_NAME_MAX = 30      # nome completo da pasta do módulo (incl. "NN-")
+LESSON_FILE_MAX = 40      # nome completo do arquivo de aula (incl. "NN-" e ".md")
 FRONTMATTER_KEYS = ["title", "module", "order", "tags", "duration"]
 
 COURSE_REQUIRED = [
@@ -213,6 +215,12 @@ def validate_course_tree(course_root: Path) -> None:
         if not MODULE_DIR_RE.match(module_dir.name):
             error(f"pasta de módulo com nome inválido: '{module_dir.name}' (esperado NN-kebab-case)")
             continue
+        if len(module_dir.name) > MODULE_NAME_MAX:
+            error(
+                f"pasta de módulo '{module_dir.name}' tem {len(module_dir.name)} caracteres "
+                f"(máximo {MODULE_NAME_MAX} — risco MAX_PATH). Abrevie: 2-4 palavras-chave; "
+                f"título completo no module.json."
+            )
         if int(module_dir.name[:2]) != expected_idx:
             warning(f"{module_dir.name}: numeração de módulo não sequencial (esperado {expected_idx:02d})")
 
@@ -224,6 +232,12 @@ def validate_course_tree(course_root: Path) -> None:
         for f in module_dir.glob("*.md"):
             if not LESSON_FILE_RE.match(f.name):
                 error(f"{module_dir.name}/ nome de aula inválido: '{f.name}' (esperado NN-kebab-case.md)")
+            elif len(f.name) > LESSON_FILE_MAX:
+                error(
+                    f"{module_dir.name}/{f.name} tem {len(f.name)} caracteres "
+                    f"(máximo {LESSON_FILE_MAX} — risco MAX_PATH). Abrevie: 2-4 palavras-chave; "
+                    f"título completo no frontmatter → title."
+                )
 
         module_duration = 0
         for idx, lesson in enumerate(lessons):

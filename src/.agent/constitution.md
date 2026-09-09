@@ -43,11 +43,12 @@ cursos/
 **Regras de nomenclatura:**
 
 1. **Slug do curso:** pasta `cursos/<slug>/` gerada do TÍTULO do curso — minúsculo, sem acento, kebab-case (ex: título "Python Básico!" → slug `python-basico`). O slug é **identificador interno**: nunca aparece visualmente na plataforma (no máximo em breadcrumb). **Limite: MÁXIMO 50 caracteres** (proteção contra `MAX_PATH` de 260 chars do Windows 7/8) — se o título for longo, abrevie o slug para as 3-5 palavras mais distintivas (ex: "AI Engineering do Fundamento ao Pensamento de Engenheiro de IA" → `ai-engineering-fundamentos`).
-2. Módulos: `NN-nome-kebab-case/` onde `NN` é numeração sequencial de 2 dígitos (`01`, `02`, `03`...).
-3. Aulas: `NN-titulo-kebab-case.md` com numeração sequencial DENTRO do módulo.
-4. Sem espaços, sem acentos, sem camelCase nos nomes de arquivo.
-5. `course.json` e `module.json` seguem RIGOROSAMENTE os schemas em `templates/`.
-6. Imagens referenciadas nas aulas devem residir em `assets/` do próprio módulo.
+2. Módulos: `NN-nome-kebab-case/` com `NN` de 2 dígitos sequencial. **Limite: MÁXIMO 30 caracteres no nome completo da pasta** (incluindo o prefixo `NN-`). Nome de módulo = 2-4 palavras-chave; o título completo vai no `module.json` → `title`.
+3. Aulas: `NN-nome-kebab-case.md` com `NN` de 2 dígitos sequencial DENTRO do módulo. **Limite: MÁXIMO 40 caracteres no nome completo do arquivo** (incluindo `NN-` e `.md`). Nome de aula = 2-4 palavras-chave; o título completo vai no frontmatter → `title`.
+4. **Princípio geral:** nome de arquivo/pasta é IDENTIFICADOR curto (2-4 palavras-chave, sem artigos/preposições desnecessárias). O título completo, descritivo e natural vive SEMPRE nos metadados (`title` do frontmatter ou `module.json`). Ex: aula "O que são IA, ML e Deep Learning?" → arquivo `01-ia-ml-deep-learning.md`, frontmatter `title: "O que são IA, ML e Deep Learning?"`.
+5. Sem espaços, sem acentos, sem camelCase nos nomes de arquivo.
+6. `course.json` e `module.json` seguem RIGOROSAMENTE os schemas em `templates/`.
+7. Imagens referenciadas nas aulas devem residir em `assets/` do próprio módulo.
 
 **ISOLAMENTO DE CURSO (NON-NEGOTIABLE):**
 

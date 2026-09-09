@@ -113,7 +113,7 @@ Step 8 — ENTREGA PARA REVIEW: A aula escrita vai direto para @bloom
 
 7.2. **TEMPLATE RÍGIDO:** O arquivo da aula DEVE começar com o frontmatter e conter as três seções na ordem: `## 🧠 Learn`, `## 🏃 Run`, `## 🚀 Fly`. Ver `templates/lesson-template.md`.
 
-7.3. **NOMENCLATURA:** Arquivo `NN-titulo-kebab-case.md`, numeração sequencial dentro do módulo, sem acento/espaço.
+7.3. **NOMENCLATURA:** Arquivo `NN-kebab-case.md`, numeração sequencial dentro do módulo, sem acento/espaço. **MÁXIMO 40 caracteres** no nome completo do arquivo (incluindo `NN-` e `.md`): use 2-4 palavras-chave como identificador. O título completo e natural vai no frontmatter → `title`. Ex: aula "O ciclo de vida de um projeto de IA" → arquivo `03-ciclo-de-vida-ia.md`.
 
 7.4. **IMAGENS:** Referências a imagens usam caminho relativo: `assets/nome-da-imagem.png`. Imagens devem existir na pasta `assets/` do módulo.
 
