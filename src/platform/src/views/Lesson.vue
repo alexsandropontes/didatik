@@ -111,7 +111,7 @@ function scrollToPhase(phase) {
     <nav class="lesson-nav-top">
       <RouterLink to="/">Cursos</RouterLink>
       <span class="crumb-sep">›</span>
-      <RouterLink :to="`/${course.slug}`">{{ course.slug }}</RouterLink>
+      <RouterLink :to="`/${course.slug}`">{{ course.title }}</RouterLink>
       <span class="crumb-sep">›</span>
       <RouterLink :to="`/${course.slug}/${lesson.module.dir}`">
         {{ lesson.module.title }}
