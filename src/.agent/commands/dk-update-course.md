@@ -3,19 +3,19 @@
 # ⚠️ CHECK: Quem executa este comando?
 
 **Antes de prosseguir, responda:**
-- Sou @turing agora?
+- Sou @azevedo agora?
 - Identifiquei COM CERTEZA qual curso será alterado?
 
 Curso não identificado → siga o Step 1 (disambiguação). NUNCA adivinhe.
 
 ---
 
-name: ec-update-course
+name: dk-update-course
 version: 1.0.0
-author: "@turing"
+author: "@azevedo"
 ---
 
-# 🎯 *ec update course — Ajustes em Curso Existente
+# 🎯 *dk update course — Ajustes em Curso Existente
 
 ## Propósito
 
@@ -55,26 +55,26 @@ Com o curso alvo fixado (`cursos/<slug>/`), classifique o pedido:
 
 | Tipo de ajuste | Agente | Processo |
 |----------------|--------|----------|
-| Novo módulo, reestruturação, mudança de objetivos/público | @piaget | Skill `piaget` (persistência DENTRO do curso alvo) |
-| Ajuste de conteúdo de aula (texto, exemplos, quiz) | @freire | Skill `freire` (8 steps) + revisão @bloom |
-| Avaliação de qualidade geral do curso | @bloom | Skill `bloom` (5 pilares, aula a aula) |
+| Novo módulo, reestruturação, mudança de objetivos/público | @teixeira | Skill `teixeira` (persistência DENTRO do curso alvo) |
+| Ajuste de conteúdo de aula (texto, exemplos, quiz) | @cora | Skill `cora` (8 steps) + revisão @andrade |
+| Avaliação de qualidade geral do curso | @andrade | Skill `andrade` (5 pilares, aula a aula) |
 
 ### Step 3: Executar com Isolamento
 
 1. **Fixe o curso em contexto:** todo path de escrita DEVE começar com `cursos/<slug-alvo>/`.
 2. Execute o processo da skill do agente escolhido.
 3. **VETO:** nenhum arquivo fora de `cursos/<slug-alvo>/` pode ser criado, editado ou movido nesta operação.
-4. Ajustes estruturais → @bloom revalida (syllabus ou aulas afetadas).
+4. Ajustes estruturais → @andrade revalida (syllabus ou aulas afetadas).
 
 ### Step 4: Consistência e Entrega
 
 1. Revalide contagens do `course.json` e `module.json` do curso alvo.
 2. Sugira `uv run scripts/validate_structure.py` (valida todos os cursos).
-3. Relatório: o que mudou, em qual curso (slug + título), veredito de @bloom quando aplicável.
+3. Relatório: o que mudou, em qual curso (slug + título), veredito de @andrade quando aplicável.
 
 ## Regras (NON-NEGOTIABLE)
 
 1. **Isolamento absoluto:** escrever apenas dentro de `cursos/<slug-alvo>/`.
 2. Ambiguidade = listar e perguntar. Nunca adivinhar.
-3. Aula alterada passa por revisão @bloom de novo (mesmo veredito: 5 pilares 🟢).
+3. Aula alterada passa por revisão @andrade de novo (mesmo veredito: 5 pilares 🟢).
 4. Estrutura interna do curso segue a Constituição, Seção II.

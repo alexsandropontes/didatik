@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# 🎓 EduCore — Sobe a plataforma do curso (Learn Run Fly)
+# 🎓 Didatik — Sobe a plataforma do curso (Learn Run Fly)
 # Uso: ./run.sh
 set -euo pipefail
 
 BOLD='\033[1m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; RED='\033[0;31m'; CYAN='\033[0;36m'; NC='\033[0m'
 
-echo -e "${CYAN}🎓 EduCore — Learn Run Fly${NC}"
+echo -e "${CYAN}🎓 Didatik — Learn Run Fly${NC}"
 echo ""
 
 fail() { echo -e "${RED}❌ $1${NC}"; exit 1; }

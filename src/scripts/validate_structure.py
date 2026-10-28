@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validador do Contrato EduCore.
+"""Validador do Contrato Didatik.
 
 Valida a estrutura da pasta curso/ contra o contrato definido em
 templates/STRUCTURE.md e na Constituição (Seção II).
@@ -207,7 +207,7 @@ def validate_course_tree(course_root: Path) -> None:
         d for d in course_root.iterdir() if d.is_dir() and not d.name.startswith(".")
     )
     if not module_dirs:
-        warning("curso sem módulos (curso vazio — normal antes de *ec course create)")
+        warning("curso sem módulos (curso vazio — normal antes de *dk course create)")
 
     total_lessons = 0
     total_duration = 0
@@ -299,11 +299,11 @@ def main() -> int:
         if (courses_root / "course.json").exists():
             course_dirs = [courses_root]  # legado 1:1 (raiz é o próprio curso)
         else:
-            print(f"🟡 {courses_root} não tem cursos (vazio — normal antes de *ec course create)")
+            print(f"🟡 {courses_root} não tem cursos (vazio — normal antes de *dk course create)")
             return 0
 
     print("=" * 60)
-    print("🎓 VALIDAÇÃO DO CONTRATO EDUCORE (multi-curso)")
+    print("🎓 VALIDAÇÃO DO CONTRATO DIDATIK (multi-curso)")
     print(f"   Raiz: {courses_root} | Cursos: {len(course_dirs)}")
     print("=" * 60)
 

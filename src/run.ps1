@@ -1,9 +1,9 @@
-# 🎓 EduCore — Sobe a plataforma do curso (Learn Run Fly)
+# 🎓 Didatik — Sobe a plataforma do curso (Learn Run Fly)
 # Uso: .\run.ps1
 
 $ErrorActionPreference = "Stop"
 
-Write-Host "🎓 EduCore — Learn Run Fly" -ForegroundColor Cyan
+Write-Host "🎓 Didatik — Learn Run Fly" -ForegroundColor Cyan
 Write-Host ""
 
 # Aviso MAX_PATH (260 chars) em Windows anterior ao 10

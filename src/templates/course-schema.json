@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "educore-course-schema",
-  "title": "EduCore Course",
+  "$id": "didatik-course-schema",
+  "title": "Didatik Course",
   "type": "object",
   "required": ["title", "subtitle", "author", "version", "tags", "description", "objectives", "skills", "audience", "total_modules", "total_lessons", "total_duration"],
   "properties": {

@@ -1,4 +1,4 @@
-// Importa estaticamente TODOS os cursos (Contrato EduCore multi-curso).
+// Importa estaticamente TODOS os cursos (Contrato Didatik multi-curso).
 // Estrutura: cursos/<slug>/{course.json, NN-modulo/{module.json, aulas.md}}
 // Funciona em dev e em build sem backend: os cursos são embutidos no bundle.
 const courseFiles = import.meta.glob('../../../cursos/*/course.json', { eager: true })

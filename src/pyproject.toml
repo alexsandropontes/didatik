@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "educore"
-version = "1.0.0"
-description = "EduCore — Framework Educacional Learn Run Fly. CLI de sincronização do runtime educacional e da mini plataforma de cursos."
+name = "didatik"
+version = "1.1.0"
+description = "Didatik — Framework Educacional Learn Run Fly. CLI de sincronização do runtime educacional e da mini plataforma de cursos."
 readme = "README.md"
 requires-python = ">=3.13"
 license = { text = "MIT" }
@@ -15,10 +15,10 @@ dependencies = [
 ]
 
 [project.scripts]
-educore = "educore.entrypoint:main"
+didatik = "didatik.entrypoint:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["educore"]
+packages = ["didatik"]
 
 [tool.hatch.build.hooks.custom]
 path = "hatch_build.py"

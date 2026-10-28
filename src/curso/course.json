@@ -1,12 +1,12 @@
 {
-  "title": "Meu Curso EduCore",
+  "title": "Meu Curso Didatik",
   "subtitle": "Curso a ser criado pelos agentes educacionais",
-  "author": "EduCore",
+  "author": "Didatik",
   "version": "0.1.0",
   "tags": [
-    "educore"
+    "didatik"
   ],
-  "description": "Este curso ainda não foi planejado. Use *ec course create para criar o curso com os agentes @piaget, @freire e @bloom.",
+  "description": "Este curso ainda não foi planejado. Use *dk course create para criar o curso com os agentes @teixeira, @cora e @andrade.",
   "objectives": [],
   "skills": [],
   "audience": "A definir pelo planejamento",

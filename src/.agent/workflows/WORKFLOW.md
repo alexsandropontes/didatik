@@ -5,10 +5,10 @@
 Pipeline determinístico para criar cursos do briefing ao conteúdo aprovado:
 
 ```
-PLAN (@piaget) → WRITE (@freire) → REVIEW (@bloom) → DONE (@turing)
+PLAN (@teixeira) → WRITE (@cora) → REVIEW (@andrade) → DONE (@azevedo)
 ```
 
-Suporta: execução completa (`*ec course create`), execução por fase (`*ec course plan`, `*ec lesson create`) e retomada (o que já existe na pasta `cursos/<slug>/` do curso em contexto define de onde continuar).
+Suporta: execução completa (`*dk course create`), execução por fase (`*dk course plan`, `*dk lesson create`) e retomada (o que já existe na pasta `cursos/<slug>/` do curso em contexto define de onde continuar).
 
 ---
 
@@ -16,10 +16,10 @@ Suporta: execução completa (`*ec course create`), execução por fase (`*ec co
 
 | Fase | Comando | Líder | ❌ VETO |
 |------|---------|-------|---------|
-| **PLAN** | `*ec course plan` / fase de `*ec course create` | **@piaget** | @freire, @bloom planejando |
-| **WRITE** | `*ec lesson create` / fase de `*ec course create` | **@freire** | @piaget, @bloom escrevendo |
-| **REVIEW** | fase de `*ec lesson create` / `*ec course create` | **@bloom** | qualquer um aprovando a própria obra |
-| **DONE** | relatório final | **@turing** | qualquer agente carimbando por conta própria |
+| **PLAN** | `*dk course plan` / fase de `*dk course create` | **@teixeira** | @cora, @andrade planejando |
+| **WRITE** | `*dk lesson create` / fase de `*dk course create` | **@cora** | @teixeira, @andrade escrevendo |
+| **REVIEW** | fase de `*dk lesson create` / `*dk course create` | **@andrade** | qualquer um aprovando a própria obra |
+| **DONE** | relatório final | **@azevedo** | qualquer agente carimbando por conta própria |
 
 **VIOLAÇÃO DE GOVERNANÇA:** agente fora da sua fase é falha de processo.
 
@@ -30,7 +30,7 @@ Suporta: execução completa (`*ec course create`), execução por fase (`*ec co
 ```yaml
 workflow_state:
   current_phase: "plan" | "write" | "review" | "done"
-  plan: {syllabus_done: bool, structure_created: bool, bloom_approved: bool}
+  plan: {syllabus_done: bool, structure_created: bool, andrade_approved: bool}
   write: {current_module: int, current_lesson: int, total_lessons: int}
   review: {approved: int, pending: int, rejected: int}
 ```
@@ -52,27 +52,27 @@ Ao acionar qualquer comando de curso:
 
 ## FASES
 
-### 1. PLAN (@piaget)
+### 1. PLAN (@teixeira)
 
-**Comando:** `*ec course plan` (ou fase 1 do `*ec course create`)
+**Comando:** `*dk course plan` (ou fase 1 do `*dk course create`)
 
-Briefing → público-alvo → objetivos observáveis → módulos → sequenciamento → breakdown → persistência. Saída revisada por @bloom (syllabus gate).
+Briefing → público-alvo → objetivos observáveis → módulos → sequenciamento → breakdown → persistência. Saída revisada por @andrade (syllabus gate).
 
 **Checkpoint:** apresentação do syllabus. Pausa APENAS se o usuário pediu para revisar.
 
-### 2. WRITE (@freire)
+### 2. WRITE (@cora)
 
-**Comando:** `*ec lesson create` (ou fase 2 do `*ec course create`)
+**Comando:** `*dk lesson create` (ou fase 2 do `*dk course create`)
 
 Para cada aula do breakdown, em ordem: escrever ciclo LRF completo → entregar para revisão. AUTO-FLOW entre aulas (não parar).
 
-### 3. REVIEW (@bloom)
+### 3. REVIEW (@andrade)
 
-**Dentro de:** cada `*ec lesson create` (ou fase 3 do `*ec course create`)
+**Dentro de:** cada `*dk lesson create` (ou fase 3 do `*dk course create`)
 
-Por aula: 5 pilares com evidências → veredito ✅/🟡/🔴 → loop de ajuste com @freire (máx. 3 iterações) → carimbo no relatório.
+Por aula: 5 pilares com evidências → veredito ✅/🟡/🔴 → loop de ajuste com @cora (máx. 3 iterações) → carimbo no relatório.
 
-### 4. DONE (@turing)
+### 4. DONE (@azevedo)
 
 Relatório final: módulos, aulas, duração, aprovações. Instrução: `cd platform && npm install && npm run dev`. Validação opcional do contrato: `uv run scripts/validate_structure.py`.
 
@@ -82,5 +82,5 @@ Relatório final: módulos, aulas, duração, aprovações. Instrução: `cd pla
 
 1. **AUTO-FLOW:** transições imediatas, na mesma resposta. Sem "posso continuar?".
 2. **ANTI-HANDOFF:** quem gera acompanha até o veredito.
-3. **GATE DE QUALIDADE:** nenhuma aula no curso sem ✅ de @bloom.
+3. **GATE DE QUALIDADE:** nenhuma aula no curso sem ✅ de @andrade.
 4. **CONTRATO:** estrutura de pastas imutável (Constituição, Seção II). A plataforma depende dela.

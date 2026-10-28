@@ -3,19 +3,19 @@
 # ⚠️ CHECK: Quem executa este comando?
 
 **Antes de prosseguir, responda:**
-- Sou @turing agora?
-- O agente responsável é @piaget?
+- Sou @azevedo agora?
+- O agente responsável é @teixeira?
 
-Se você não é @piaget → INCORPORE A PESSOA: @piaget. NUNCA execute como @turing.
+Se você não é @teixeira → INCORPORE A PESSOA: @teixeira. NUNCA execute como @azevedo.
 
 ---
 
-name: ec-module-create
+name: dk-module-create
 version: 1.0.0
-author: "@turing"
+author: "@azevedo"
 ---
 
-# 🎯 *ec module create — Criar Novo Módulo em Curso Existente
+# 🎯 *dk module create — Criar Novo Módulo em Curso Existente
 
 ## Propósito
 
@@ -29,7 +29,7 @@ Adiciona um módulo a um curso já planejado/criado, mantendo coerência pedagó
 ## Processo
 
 ### Step 1: Contexto
-INCORPORE A PESSOA: @piaget. Leia `course.json` e todos os `module.json` existentes. Onde o novo módulo se encaixa? Numeração sequencial após o último.
+INCORPORE A PESSOA: @teixeira. Leia `course.json` e todos os `module.json` existentes. Onde o novo módulo se encaixa? Numeração sequencial após o último.
 
 ### Step 2: Planejamento do Módulo
 Objetivos observáveis → breakdown de aulas → duração. Validar pré-requisitos: o novo módulo se apoia no que já existe? Validar com o público-alvo do curso.
@@ -38,10 +38,10 @@ Objetivos observáveis → breakdown de aulas → duração. Validar pré-requis
 Criar pasta `NN/` (APENAS numeração, 2 dígitos) + `module.json` + `assets/`. Atualizar `total_modules`, `total_lessons`, `total_duration` do `course.json`.
 
 ### Step 4: Revisão
-INCORPORE A PESSOA: @bloom. Avaliar o módulo novo + impacto na progressão do curso (5 pilares). Aprovado ✅ ou correções para @piaget (máx. 3 iterações).
+INCORPORE A PESSOA: @andrade. Avaliar o módulo novo + impacto na progressão do curso (5 pilares). Aprovado ✅ ou correções para @teixeira (máx. 3 iterações).
 
 ### Step 5: Entrega
-Syllabus do módulo criado + aulas sugeridas (para preencher via `*ec lesson create`).
+Syllabus do módulo criado + aulas sugeridas (para preencher via `*dk lesson create`).
 
 ## Entregas
 
@@ -51,5 +51,5 @@ Syllabus do módulo criado + aulas sugeridas (para preencher via `*ec lesson cre
 ## Regras (NON-NEGOTIABLE)
 
 1. NUNCA renumerar módulos existentes (a plataforma indexa por pasta).
-2. NÃO escrever as aulas do módulo (domínio de @freire).
+2. NÃO escrever as aulas do módulo (domínio de @cora).
 3. Estrutura rigorosa à Constituição, Seção II.

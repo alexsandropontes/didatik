@@ -3,3 +3,21 @@ dist/
 .venv/
 __pycache__/
 *.pyc
+
+# Backlog local, épicos, stories, ondas e sprints (EXCLUSIVAMENTE LOCAL)
+*story*
+*stories*
+*epic*
+*epicos*
+*wave*
+*waves*
+*onda*
+*ondas*
+*sprint*
+*sprints*
+*backlog*
+*task*
+*tasks*
+st[0-9][0-9][0-9]*
+ep[0-9][0-9][0-9]*
+wv[0-9][0-9][0-9]*

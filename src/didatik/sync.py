@@ -1,4 +1,4 @@
-"""Sincronização do runtime EduCore para o projeto local."""
+"""Sincronização do runtime Didatik para o projeto local."""
 
 from __future__ import annotations
 
@@ -26,7 +26,7 @@ def slugify_title(title: str) -> str:
     return slug or "curso"
 
 
-PLACEHOLDER_TITLE = "Meu Curso EduCore"
+PLACEHOLDER_TITLE = "Meu Curso Didatik"
 
 
 def migrate_legacy_curso(target: Path) -> str | None:
@@ -70,7 +70,7 @@ def migrate_legacy_curso(target: Path) -> str | None:
 
 def registry_path() -> Path:
     """Retorna o caminho do registry empacotado dentro do pacote."""
-    root = resources.files("educore") / "registry"
+    root = resources.files("didatik") / "registry"
     return Path(str(root))
 
 
@@ -147,10 +147,16 @@ def sync_runtime(target: Path, force: bool = False) -> dict[str, int]:
         _copy_tree(reg / "platform", target / "platform", force, SKIP_DIRS)
     )
 
+    # docs/ (manuais de usuário e desenvolvedor)
+    if (reg / "docs").exists():
+        stats["docs"] = int(_copy_tree(reg / "docs", target / "docs", force))
+
     if force:
         _clean_stale(target / ".agent", reg / ".agent")
         _clean_stale(target / "templates", reg / "templates")
         _clean_stale(target / "platform", reg / "platform", SKIP_DIRS)
+        if (reg / "docs").exists():
+            _clean_stale(target / "docs", reg / "docs")
 
     # run.sh / run.ps1 — sempre atualizados (executáveis)
     run_copied = 0

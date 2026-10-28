@@ -10,13 +10,14 @@ from hatchling.builders.hooks.plugin.interface import BuildHookInterface
 SKIP_DIRS = {"node_modules", "dist", ".venv", "__pycache__", ".git"}
 
 REGISTRY_MAP = {
-    ".agent": "educore/registry/.agent",
-    "CLAUDE.md": "educore/registry/CLAUDE.md",
-    "templates": "educore/registry/templates",
-    "scripts": "educore/registry/scripts",
-    "platform": "educore/registry/platform",
-    "run.sh": "educore/registry/run.sh",
-    "run.ps1": "educore/registry/run.ps1",
+    ".agent": "didatik/registry/.agent",
+    "CLAUDE.md": "didatik/registry/CLAUDE.md",
+    "templates": "didatik/registry/templates",
+    "scripts": "didatik/registry/scripts",
+    "platform": "didatik/registry/platform",
+    "docs": "didatik/registry/docs",
+    "run.sh": "didatik/registry/run.sh",
+    "run.ps1": "didatik/registry/run.ps1",
 }
 
 

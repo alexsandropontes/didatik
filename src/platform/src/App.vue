@@ -2,7 +2,7 @@
 import { loadCourses } from './utils/courseLoader'
 
 const courses = loadCourses()
-const brand = courses.length ? 'EduCore' : 'EduCore — Learn Run Fly'
+const brand = courses.length ? 'Didatik' : 'Didatik — Learn Run Fly'
 </script>
 
 <template>
@@ -14,7 +14,7 @@ const brand = courses.length ? 'EduCore' : 'EduCore — Learn Run Fly'
       <RouterView />
     </main>
     <footer class="footer">
-      <span>🎓 EduCore · Learn Run Fly</span>
+      <span>🎓 Didatik · Learn Run Fly</span>
     </footer>
   </div>
 </template>

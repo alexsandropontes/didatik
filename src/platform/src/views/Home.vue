@@ -73,7 +73,7 @@ function statsFor(mod) {
         <span class="arrow">→</span>
       </RouterLink>
       <p v-if="!course.modules.length" class="empty">
-        Nenhum módulo ainda. Use os agentes EduCore para criar o curso! 🎓
+        Nenhum módulo ainda. Use os agentes Didatik para criar o curso! 🎓
       </p>
     </div>
   </section>

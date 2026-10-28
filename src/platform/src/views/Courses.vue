@@ -37,7 +37,7 @@ const { courseStats } = useProgress()
     </RouterLink>
 
     <p v-if="!courses.length" class="empty">
-      Nenhum curso ainda. Use os agentes EduCore para criar: *ec course create 🎓
+      Nenhum curso ainda. Use os agentes Didatik para criar: *dk course create 🎓
     </p>
   </section>
 </template>

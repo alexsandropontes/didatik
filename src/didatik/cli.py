@@ -1,4 +1,4 @@
-"""CLI do EduCore — comandos sync, upgrade, version e validate."""
+"""CLI do Didatik — comandos sync, upgrade, version e validate."""
 
 from __future__ import annotations
 
@@ -11,24 +11,24 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
-from educore import __version__
-from educore.sync import registry_path, sync_runtime
+from didatik import __version__
+from didatik.sync import registry_path, sync_runtime
 
 app = typer.Typer(
-    name="educore",
-    help="🎓 EduCore — Framework Educacional Learn Run Fly",
+    name="didatik",
+    help="🎓 Didatik — Framework Educacional Learn Run Fly",
     no_args_is_help=True,
     add_completion=False,
 )
 console = Console()
 
-EDUCORE_GIT = "git+ssh://git@github.com/lxptech/educore.git#subdirectory=src"
+DIDATIK_GIT = "git+ssh://git@github.com/alexsandropontes/didatik.git#subdirectory=src"
 
 
 @app.command()
 def version() -> None:
-    """Mostra a versão do EduCore."""
-    console.print(f"🎓 EduCore [cyan]v{__version__}[/cyan]")
+    """Mostra a versão do Didatik."""
+    console.print(f"🎓 Didatik [cyan]v{__version__}[/cyan]")
 
 
 @app.command()
@@ -37,8 +37,8 @@ def sync(
         False, "--force", "-f", help="Sobrescreve runtime existente (nunca toca cursos/)"
     ),
 ) -> None:
-    """Instala/atualiza o runtime EduCore (.agent, CLAUDE.md, templates, scripts) e a mini plataforma (platform/) no projeto local."""
-    console.print(Panel.fit("[bold cyan]🎓 EduCore: Sync do Runtime Educacional[/bold cyan]"))
+    """Instala/atualiza o runtime Didatik (.agent, CLAUDE.md, templates, scripts) e a mini plataforma (platform/) no projeto local."""
+    console.print(Panel.fit("[bold cyan]🎓 Didatik: Sync do Runtime Educacional[/bold cyan]"))
     target = Path.cwd()
 
     if (target / ".agent").exists() and not force:
@@ -60,6 +60,7 @@ def sync(
         "templates": "Contrato (schemas + templates)",
         "scripts": "Validador Python/UV",
         "platform": "Mini plataforma Vue 3",
+        "docs": "Documentação (Guias de Usuário e Dev)",
         "run": "Scripts de execução (run.sh / run.ps1)",
         "migracao": "Migração 1:1 (curso/ → cursos/<slug>/)",
         "cursos": "Pasta de cursos (multi-curso)",
@@ -83,19 +84,19 @@ def sync(
         )
     console.print(
         "\n[green]✅ Runtime sincronizado.[/green] "
-        "Crie seu curso com: [bold]*ec course create \"<descrição>\"[/bold]"
+        "Crie seu curso com: [bold]*dk course create \"<descrição>\"[/bold]"
     )
 
 
 @app.command()
 def upgrade() -> None:
-    """Atualiza o motor (CLI) do EduCore globalmente via GitHub e sincroniza o projeto local."""
-    console.print(Panel.fit("[bold magenta]🎓 EduCore: Global Upgrade Protocol[/bold magenta]"))
+    """Atualiza o motor (CLI) do Didatik globalmente via GitHub e sincroniza o projeto local."""
+    console.print(Panel.fit("[bold magenta]🎓 Didatik: Global Upgrade Protocol[/bold magenta]"))
 
     console.print(f"Versão instalada: [cyan]v{__version__}[/cyan]")
-    console.print(f"Fonte: [dim]{EDUCORE_GIT}[/dim]")
+    console.print(f"Fonte: [dim]{DIDATIK_GIT}[/dim]")
 
-    cmd = ["uv", "tool", "install", "--force", "--upgrade", "--python", "3.13", EDUCORE_GIT]
+    cmd = ["uv", "tool", "install", "--force", "--upgrade", "--python", "3.13", DIDATIK_GIT]
     if not typer.confirm("Atualizar o motor globalmente via GitHub?", default=True):
         console.print("[yellow]Upgrade cancelado.[/yellow]")
         raise typer.Exit()

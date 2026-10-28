@@ -1,6 +1,6 @@
 import { reactive, watch } from 'vue'
 
-const STORAGE_KEY = 'educore:progress:v2'
+const STORAGE_KEY = 'didatik:progress:v2'
 
 function load() {
   try {
